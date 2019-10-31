@@ -13,6 +13,7 @@ The programming language for this project is chosen to be MATLAB and the dataset
 Gaussian distribution. Moreover, a linear dimensionality reduction based on 
 [PCA (Principal Component Analysis)](https://en.wikipedia.org/wiki/Principal_component_analysis) is performed as a pre-processing step. 
 
+> blockquote d*dfvd*
 
 ## Learning outcomes:
 
