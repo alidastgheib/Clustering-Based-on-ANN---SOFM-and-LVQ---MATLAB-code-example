@@ -1,0 +1,266 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Performance_Evaluation</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-10-31"><meta name="DC.source" content="Performance_Evaluation.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Assessing clustering methods' performance and efficacy</a></li><li><a href="#3">Part 1- Creating a fake dataset</a></li><li><a href="#4">Part 2- Performing linear dimensionality reduction (or noise suppression) alg.</a></li><li><a href="#5">Part 3- Investigating different clustering methods (1-SOFM &amp; 2-LVQ)</a></li><li><a href="#6">Part 3-1-1- Training SOFM</a></li><li><a href="#7">Part 3-1-2- Evaluating SOFM</a></li><li><a href="#8">Part 3-2-1- Training Competitive Layer</a></li><li><a href="#9">Part 3-2-2- Evaluating Competitive Layer</a></li></ul></div><pre class="codeinput">clear; close <span class="string">all</span>; clc
+</pre><h2 id="2">Assessing clustering methods' performance and efficacy</h2><p>Cluster analysis organizes data into groups based on similarities between the data points. Sometimes the data contains natural divisions that indicate the appropriate number of clusters. Other times, the data does not contain natural divisions, or the natural divisions are unknown. In such a case, you might to determine the optimal number of clusters to group your data. (from MATLAB)</p><h2 id="3">Part 1- Creating a fake dataset</h2><pre class="codeinput">nRow_fake_dataset = 3000; <span class="comment">% it should actually be 30000, but for elapsed</span>
+<span class="comment">% running time of the code, 3000 is chosen.</span>
+nCol_fake_dataset = 600; <span class="comment">% it should actually be 6000, but for elapsed</span>
+<span class="comment">% running time of the code, 600 is chosen.</span>
+
+temp0 = randn(ceil(nRow_fake_dataset/5), ceil(nCol_fake_dataset/5));
+temp1 = repmat(temp0, 5, 5);
+fake_dataset = temp1(1:nRow_fake_dataset, 1:nCol_fake_dataset);
+</pre><h2 id="4">Part 2- Performing linear dimensionality reduction (or noise suppression) alg.</h2><pre class="codeinput">[coeff, score, ~, ~, explained, ~] = pca(fake_dataset);
+explained_variance_threshold = 99.5; <span class="comment">% for the FFT dataset, a threshold of</span>
+<span class="comment">% 99 or 99.5 is thought to be more suitable.</span>
+
+cumulative_explained = cumsum(explained);
+numFeatures = find(cumulative_explained &gt;= explained_variance_threshold);
+numFeatures = numFeatures(1);
+reduced_dataset_by_pca = score(:, 1:numFeatures);
+inputs = reduced_dataset_by_pca.';
+</pre><pre class="codeoutput">Warning: Columns of X are linearly dependent to within machine precision.
+Using only the first 120 components to compute TSQUARED. 
+</pre><h2 id="5">Part 3- Investigating different clustering methods (1-SOFM &amp; 2-LVQ)</h2><pre class="codeinput">numClusters = 3;
+</pre><h2 id="6">Part 3-1-1- Training SOFM</h2><pre class="codeinput">row_nodes = 3; column_nodes = 1;
+<span class="comment">% Note: the result of the product "row_nodes * column_nodes", should be</span>
+<span class="comment">% equal to "numClusters".</span>
+
+dimensions = [row_nodes, column_nodes];
+SOFM_net = selforgmap(dimensions);
+SOFM_net = train(SOFM_net, inputs);
+SOFM_oneHotClasses = SOFM_net(inputs); SOFM_classes = vec2ind(SOFM_oneHotClasses).';
+</pre><h2 id="7">Part 3-1-2- Evaluating SOFM</h2><pre class="codeinput">SOFM_CalinskiHarabasz_index = evalclusters(inputs.', SOFM_classes, <span class="keyword">...</span>
+    <span class="string">'CalinskiHarabasz'</span>)
+SOFM_DaviesBouldin_index = evalclusters(inputs.', SOFM_classes, <span class="keyword">...</span>
+    <span class="string">'DaviesBouldin'</span>)
+SOFM_silhouette_index = evalclusters(inputs.', SOFM_classes, <span class="keyword">...</span>
+    <span class="string">'silhouette'</span>)
+
+<span class="comment">% Creating a silhouette plot from the clustered data.</span>
+figure;
+silhouette(inputs.', SOFM_classes); title([<span class="string">'Silhouette Plot for '</span>, <span class="string">'"SOFM"'</span>])
+grid <span class="string">on</span>
+</pre><pre class="codeoutput">
+SOFM_CalinskiHarabasz_index = 
+
+  CalinskiHarabaszEvaluation with properties:
+
+    NumObservations: 3000
+         InspectedK: 3
+    CriterionValues: 32.5652
+           OptimalK: 3
+
+
+SOFM_DaviesBouldin_index = 
+
+  DaviesBouldinEvaluation with properties:
+
+    NumObservations: 3000
+         InspectedK: 3
+    CriterionValues: 7.9987
+           OptimalK: 3
+
+
+SOFM_silhouette_index = 
+
+  SilhouetteEvaluation with properties:
+
+    NumObservations: 3000
+         InspectedK: 3
+    CriterionValues: 0.0216
+           OptimalK: 3
+
+</pre><img vspace="5" hspace="5" src="Performance_Evaluation_01.png" alt=""> <h2 id="8">Part 3-2-1- Training Competitive Layer</h2><pre class="codeinput">numEpochs = 100;
+LVQ_net = competlayer(numClusters);
+configure(LVQ_net, inputs);
+LVQ_net.trainParam.epochs = numEpochs;
+
+LVQ_net = train(LVQ_net, inputs);
+LVQ_oneHotClasses = LVQ_net(inputs); LVQ_classes = vec2ind(LVQ_oneHotClasses).';
+</pre><h2 id="9">Part 3-2-2- Evaluating Competitive Layer</h2><pre class="codeinput">LVQ_CalinskiHarabasz_index = evalclusters(inputs.', LVQ_classes, <span class="keyword">...</span>
+    <span class="string">'CalinskiHarabasz'</span>)
+LVQ_DaviesBouldin_index = evalclusters(inputs.', LVQ_classes, <span class="keyword">...</span>
+    <span class="string">'DaviesBouldin'</span>)
+LVQ_silhouette_index = evalclusters(inputs.', LVQ_classes, <span class="keyword">...</span>
+    <span class="string">'silhouette'</span>)
+
+<span class="comment">% Create a silhouette plot from the clustered data.</span>
+silhouette(inputs.', LVQ_classes); title([<span class="string">'Silhouette Plot for '</span>, <span class="string">'"LVQ"'</span>])
+grid <span class="string">on</span>
+</pre><pre class="codeoutput">
+LVQ_CalinskiHarabasz_index = 
+
+  CalinskiHarabaszEvaluation with properties:
+
+    NumObservations: 3000
+         InspectedK: 3
+    CriterionValues: 31.3788
+           OptimalK: 3
+
+
+LVQ_DaviesBouldin_index = 
+
+  DaviesBouldinEvaluation with properties:
+
+    NumObservations: 3000
+         InspectedK: 3
+    CriterionValues: 8.0881
+           OptimalK: 3
+
+
+LVQ_silhouette_index = 
+
+  SilhouetteEvaluation with properties:
+
+    NumObservations: 3000
+         InspectedK: 3
+    CriterionValues: 0.0222
+           OptimalK: 3
+
+</pre><img vspace="5" hspace="5" src="Performance_Evaluation_02.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clear; close all; clc
+
+%% Assessing clustering methods' performance and efficacy
+% Cluster analysis organizes data into groups based on similarities between
+% the data points. Sometimes the data contains natural divisions that 
+% indicate the appropriate number of clusters. Other times, the data does 
+% not contain natural divisions, or the natural divisions are unknown. In 
+% such a case, you might to determine the optimal number of clusters to 
+% group your data. (from MATLAB)
+
+%% Part 1- Creating a fake dataset
+nRow_fake_dataset = 3000; % it should actually be 30000, but for elapsed 
+% running time of the code, 3000 is chosen.  
+nCol_fake_dataset = 600; % it should actually be 6000, but for elapsed 
+% running time of the code, 600 is chosen.
+
+temp0 = randn(ceil(nRow_fake_dataset/5), ceil(nCol_fake_dataset/5));
+temp1 = repmat(temp0, 5, 5);
+fake_dataset = temp1(1:nRow_fake_dataset, 1:nCol_fake_dataset);
+
+%% Part 2- Performing linear dimensionality reduction (or noise suppression) alg.
+[coeff, score, ~, ~, explained, ~] = pca(fake_dataset);
+explained_variance_threshold = 99.5; % for the FFT dataset, a threshold of 
+% 99 or 99.5 is thought to be more suitable.
+
+cumulative_explained = cumsum(explained);
+numFeatures = find(cumulative_explained >= explained_variance_threshold);
+numFeatures = numFeatures(1);
+reduced_dataset_by_pca = score(:, 1:numFeatures);
+inputs = reduced_dataset_by_pca.';
+
+%% Part 3- Investigating different clustering methods (1-SOFM & 2-LVQ)
+numClusters = 3;
+
+%% Part 3-1-1- Training SOFM
+row_nodes = 3; column_nodes = 1;
+% Note: the result of the product "row_nodes * column_nodes", should be
+% equal to "numClusters".
+
+dimensions = [row_nodes, column_nodes];
+SOFM_net = selforgmap(dimensions);
+SOFM_net = train(SOFM_net, inputs);
+SOFM_oneHotClasses = SOFM_net(inputs); SOFM_classes = vec2ind(SOFM_oneHotClasses).';
+
+%% Part 3-1-2- Evaluating SOFM
+SOFM_CalinskiHarabasz_index = evalclusters(inputs.', SOFM_classes, ...
+    'CalinskiHarabasz')
+SOFM_DaviesBouldin_index = evalclusters(inputs.', SOFM_classes, ...
+    'DaviesBouldin')
+SOFM_silhouette_index = evalclusters(inputs.', SOFM_classes, ...
+    'silhouette')
+
+% Creating a silhouette plot from the clustered data.
+figure;
+silhouette(inputs.', SOFM_classes); title(['Silhouette Plot for ', '"SOFM"'])
+grid on
+
+%% Part 3-2-1- Training Competitive Layer
+numEpochs = 100;
+LVQ_net = competlayer(numClusters);
+configure(LVQ_net, inputs);
+LVQ_net.trainParam.epochs = numEpochs;
+
+LVQ_net = train(LVQ_net, inputs);
+LVQ_oneHotClasses = LVQ_net(inputs); LVQ_classes = vec2ind(LVQ_oneHotClasses).';
+
+%% Part 3-2-2- Evaluating Competitive Layer
+LVQ_CalinskiHarabasz_index = evalclusters(inputs.', LVQ_classes, ...
+    'CalinskiHarabasz')
+LVQ_DaviesBouldin_index = evalclusters(inputs.', LVQ_classes, ...
+    'DaviesBouldin')
+LVQ_silhouette_index = evalclusters(inputs.', LVQ_classes, ...
+    'silhouette')
+
+% Create a silhouette plot from the clustered data.
+silhouette(inputs.', LVQ_classes); title(['Silhouette Plot for ', '"LVQ"'])
+grid on
+##### SOURCE END #####
+--></body></html>
