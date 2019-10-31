@@ -13,7 +13,7 @@ The programming language for this project is chosen to be MATLAB and the dataset
 Gaussian distribution. Moreover, a linear dimensionality reduction based on 
 [PCA (Principal Component Analysis)](https://en.wikipedia.org/wiki/Principal_component_analysis) is performed as a pre-processing step. 
 
-> ***NOTE:* Self-organizing maps learn to cluster data based on similarity, topology, with a preference (but no guarantee) of assigning the > same number of instances to each class; competitive layers learn to classify input vectors into a given 
+> ***NOTE:* Self-organizing maps learn to cluster data based on similarity, topology, with a preference (but no guarantee) of assigning > the same number of instances to each class; competitive layers learn to classify input vectors into a given 
 > number of classes, according to similarity between vectors, (AGAIN!) with a preference for equal numbers of vectors per 
 > class. (excerpted from MATLAB help)**      
 > **Hence, if you are sure that your dataset is imbalanced and your expected clusters are not supposed to be of similar population, then I
