@@ -1,0 +1,195 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>sofm_only</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-10-30"><meta name="DC.source" content="sofm_only.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Performing clustering with only "Self-organizing Maps"</a></li><li><a href="#3">Part 1- Creating a fake dataset</a></li><li><a href="#4">Part 2- Performing linear dimensionality reduction (or noise suppression) alg.</a></li><li><a href="#5">Part 3- Performing SOFM (a non-linear and trainable dimensionality reduction alg.)</a></li><li><a href="#6">Part 3-1- Preparing (transposing) the dataset matrix</a></li><li><a href="#7">Part 3-2- Creating a "network" object for SOFM</a></li><li><a href="#8">Part 3-3- Training SOFM and visualizing its performance benchmarks</a></li><li><a href="#9">Part 3-4- Clustering dataset based on the trained SOFM</a></li><li><a href="#10">Part 3-5- Visualization of the cluster proposals for some samples</a></li></ul></div><pre class="codeinput">clear; close <span class="string">all</span>; clc
+</pre><h2 id="2">Performing clustering with only "Self-organizing Maps"</h2><p>Self-organizing maps learn to cluster data based on similarity, topology, with a preference (but no guarantee) of assigning the same number of instances to each class. Self-organizing maps are used both to cluster data and to reduce the dimensionality of data. (from MATLAB help)</p><p>By the word "only", we mean that all the clustering process is achieved by only creating a SOFM neural network. For this purpose, the number of the desired clusters, must be the same as the number of neurons in the output layer of the SOFM neural network.</p><h2 id="3">Part 1- Creating a fake dataset</h2><pre class="codeinput">nRow_fake_dataset = 3000; <span class="comment">% it should actually be 30000, but for elapsed</span>
+<span class="comment">% running time of the code, 3000 is chosen.</span>
+nCol_fake_dataset = 600; <span class="comment">% it should actually be 6000, but for elapsed</span>
+<span class="comment">% running time of the code, 600 is chosen.</span>
+
+temp0 = randn(ceil(nRow_fake_dataset/5), ceil(nCol_fake_dataset/5));
+temp1 = repmat(temp0, 5, 5);
+fake_dataset = temp1(1:nRow_fake_dataset, 1:nCol_fake_dataset);
+</pre><h2 id="4">Part 2- Performing linear dimensionality reduction (or noise suppression) alg.</h2><pre class="codeinput">[coeff, score, ~, ~, explained, ~] = pca(fake_dataset);
+explained_variance_threshold = 99.5; <span class="comment">% for the FFT dataset, a threshold of</span>
+<span class="comment">% 99 or 99.5 is thought to be more suitable.</span>
+
+cumulative_explained = cumsum(explained);
+numFeatures = find(cumulative_explained &gt;= explained_variance_threshold);
+numFeatures = numFeatures(1);
+
+reduced_dataset_by_pca = score(:, 1:numFeatures);
+size(reduced_dataset_by_pca)
+</pre><pre class="codeoutput">Warning: Columns of X are linearly dependent to within machine precision.
+Using only the first 120 components to compute TSQUARED. 
+
+ans =
+
+        3000         119
+
+</pre><h2 id="5">Part 3- Performing SOFM (a non-linear and trainable dimensionality reduction alg.)</h2><h2 id="6">Part 3-1- Preparing (transposing) the dataset matrix</h2><pre class="codeinput">inputs = reduced_dataset_by_pca.';
+</pre><h2 id="7">Part 3-2- Creating a "network" object for SOFM</h2><pre class="codeinput">numClusters = 3;
+row_nodes = 3; column_nodes = 1;
+<span class="comment">% Note: the result of the product "row_nodes * column_nodes", should be</span>
+<span class="comment">% equal to "numClusters".</span>
+
+dimensions = [row_nodes, column_nodes];
+net = selforgmap(dimensions);
+net = configure(net, inputs);
+figure; plotsompos(net, inputs); grid <span class="string">on</span>
+</pre><img vspace="5" hspace="5" src="sofm_only_01.png" alt=""> <h2 id="8">Part 3-3- Training SOFM and visualizing its performance benchmarks</h2><pre class="codeinput">[net, tr] = train(net, inputs, <span class="keyword">...</span>
+    <span class="string">'CheckpointFile'</span>, <span class="string">'sofm_chk'</span>, <span class="string">'CheckpointDelay'</span>, 2);
+
+view(net)
+figure; plotsompos(net, inputs); grid <span class="string">on</span>
+figure; plotsomhits(net, inputs);
+figure; plotsomnd(net);
+</pre><pre class="codeoutput">30-Oct-2019 20:32:21 First Checkpoint #1: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\sofm_chk.mat
+30-Oct-2019 20:32:22 Final Checkpoint #2: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\sofm_chk.mat
+</pre><img vspace="5" hspace="5" src="sofm_only_02.png" alt=""> <img vspace="5" hspace="5" src="sofm_only_03.png" alt=""> <img vspace="5" hspace="5" src="sofm_only_04.png" alt=""> <img vspace="5" hspace="5" src="sofm_only_05.png" alt=""> <h2 id="9">Part 3-4- Clustering dataset based on the trained SOFM</h2><pre class="codeinput">oneHotClasses = net(inputs);
+classes = vec2ind(oneHotClasses);
+</pre><h2 id="10">Part 3-5- Visualization of the cluster proposals for some samples</h2><pre class="codeinput">numOfSamples = 5;
+disp([<span class="string">'Proposals for the first '</span> num2str(numOfSamples) <span class="string">' samples:'</span>])
+classes(1:numOfSamples)
+</pre><pre class="codeoutput">Proposals for the first 5 samples:
+
+ans =
+
+     2     3     1     1     2
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clear; close all; clc
+
+%% Performing clustering with only "Self-organizing Maps"
+% Self-organizing maps learn to cluster data based on similarity, 
+% topology, with a preference (but no guarantee) of assigning the same 
+% number of instances to each class. Self-organizing maps are used both to 
+% cluster data and to reduce the dimensionality of data. (from MATLAB help)
+%
+% By the word "only", we mean that all the clustering process is achieved
+% by only creating a SOFM neural network. For this purpose, the number of
+% the desired clusters, must be the same as the number of neurons in the
+% output layer of the SOFM neural network.
+
+%% Part 1- Creating a fake dataset
+nRow_fake_dataset = 3000; % it should actually be 30000, but for elapsed 
+% running time of the code, 3000 is chosen.  
+nCol_fake_dataset = 600; % it should actually be 6000, but for elapsed 
+% running time of the code, 600 is chosen.
+
+temp0 = randn(ceil(nRow_fake_dataset/5), ceil(nCol_fake_dataset/5));
+temp1 = repmat(temp0, 5, 5);
+fake_dataset = temp1(1:nRow_fake_dataset, 1:nCol_fake_dataset);
+
+%% Part 2- Performing linear dimensionality reduction (or noise suppression) alg.
+[coeff, score, ~, ~, explained, ~] = pca(fake_dataset);
+explained_variance_threshold = 99.5; % for the FFT dataset, a threshold of 
+% 99 or 99.5 is thought to be more suitable.
+
+cumulative_explained = cumsum(explained);
+numFeatures = find(cumulative_explained >= explained_variance_threshold);
+numFeatures = numFeatures(1);
+
+reduced_dataset_by_pca = score(:, 1:numFeatures);
+size(reduced_dataset_by_pca)
+
+%% Part 3- Performing SOFM (a non-linear and trainable dimensionality reduction alg.)
+%% Part 3-1- Preparing (transposing) the dataset matrix
+inputs = reduced_dataset_by_pca.';
+
+%% Part 3-2- Creating a "network" object for SOFM
+numClusters = 3; 
+row_nodes = 3; column_nodes = 1;
+% Note: the result of the product "row_nodes * column_nodes", should be
+% equal to "numClusters".
+
+dimensions = [row_nodes, column_nodes];
+net = selforgmap(dimensions);
+net = configure(net, inputs);
+figure; plotsompos(net, inputs); grid on
+
+%% Part 3-3- Training SOFM and visualizing its performance benchmarks 
+[net, tr] = train(net, inputs, ...
+    'CheckpointFile', 'sofm_chk', 'CheckpointDelay', 2);
+
+view(net)
+figure; plotsompos(net, inputs); grid on
+figure; plotsomhits(net, inputs);
+figure; plotsomnd(net);
+
+%% Part 3-4- Clustering dataset based on the trained SOFM
+oneHotClasses = net(inputs);
+classes = vec2ind(oneHotClasses);
+
+%% Part 3-5- Visualization of the cluster proposals for some samples
+numOfSamples = 5;
+disp(['Proposals for the first ' num2str(numOfSamples) ' samples:'])
+classes(1:numOfSamples)
+##### SOURCE END #####
+--></body></html>
