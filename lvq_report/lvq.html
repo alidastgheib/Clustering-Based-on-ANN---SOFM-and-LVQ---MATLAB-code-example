@@ -1,0 +1,193 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>lvq</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-10-31"><meta name="DC.source" content="lvq.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Performing clustering with only a "Competitive Layer" (based on LVQ)</a></li><li><a href="#3">Part 1- Creating a fake dataset</a></li><li><a href="#4">Part 2- Performing linear dimensionality reduction (or noise suppression) alg.</a></li><li><a href="#5">Part 3- Performing LVQ-based clustering</a></li><li><a href="#6">Part 3-1- Preparing (transposing) the dataset matrix</a></li><li><a href="#7">Part 3-2- Creating a "network" object and configuring its parameters</a></li><li><a href="#8">Part 3-3- Training the network and clustering the dataset</a></li><li><a href="#9">Part 3-4- Visualization of the cluster proposals for some samples</a></li></ul></div><pre class="codeinput">clear; close <span class="string">all</span>; clc
+</pre><h2 id="2">Performing clustering with only a "Competitive Layer" (based on LVQ)</h2><p>Competitive learning is a form of unsupervised learning in artificial neural networks, in which nodes compete for the right to respond to a subset of the input data. As a variant of Hebbian learning, competitive learning works by increasing the specialization of each node in the network. It is well suited to finding clusters within data. (from Wikipedia)</p><p>By the word "only", we mean that a one-layer neural net is the only thing that represents our model. For this pupose, the number of clusters should be given to the "competlayer" function as the first input argument.</p><h2 id="3">Part 1- Creating a fake dataset</h2><pre class="codeinput">nRow_fake_dataset = 3000; <span class="comment">% it should actually be 30000, but for elapsed</span>
+<span class="comment">% running time of the code, 3000 is chosen.</span>
+nCol_fake_dataset = 600; <span class="comment">% it should actually be 6000, but for elapsed</span>
+<span class="comment">% running time of the code, 600 is chosen.</span>
+
+temp0 = randn(ceil(nRow_fake_dataset/5), ceil(nCol_fake_dataset/5));
+temp1 = repmat(temp0, 5, 5);
+fake_dataset = temp1(1:nRow_fake_dataset, 1:nCol_fake_dataset);
+</pre><h2 id="4">Part 2- Performing linear dimensionality reduction (or noise suppression) alg.</h2><pre class="codeinput">[coeff, score, ~, ~, explained, ~] = pca(fake_dataset);
+explained_variance_threshold = 99.5; <span class="comment">% for the FFT dataset, a threshold of</span>
+<span class="comment">% 99 or 99.5 is thought to be more suitable.</span>
+
+cumulative_explained = cumsum(explained);
+numFeatures = find(cumulative_explained &gt;= explained_variance_threshold);
+numFeatures = numFeatures(1);
+
+reduced_dataset_by_pca = score(:, 1:numFeatures);
+size(reduced_dataset_by_pca)
+</pre><pre class="codeoutput">Warning: Columns of X are linearly dependent to within machine precision.
+Using only the first 120 components to compute TSQUARED. 
+
+ans =
+
+        3000         119
+
+</pre><h2 id="5">Part 3- Performing LVQ-based clustering</h2><h2 id="6">Part 3-1- Preparing (transposing) the dataset matrix</h2><pre class="codeinput">inputs = reduced_dataset_by_pca.';
+</pre><h2 id="7">Part 3-2- Creating a "network" object and configuring its parameters</h2><pre class="codeinput">numClusters = 3;  numEpochs = 100;
+net = competlayer(numClusters);
+configure(net, inputs);
+net.trainParam.epochs = numEpochs;
+</pre><h2 id="8">Part 3-3- Training the network and clustering the dataset</h2><pre class="codeinput">[net, tr] = train(net, inputs,<span class="string">'CheckpointFile'</span>, <span class="keyword">...</span>
+    <span class="string">'compete_layer_chk'</span>, <span class="string">'CheckpointDelay'</span>, 5);
+
+view(net)
+
+oneHotClasses = net(inputs);
+classes = vec2ind(oneHotClasses);
+</pre><pre class="codeoutput">31-Oct-2019 16:59:04 First Checkpoint #1: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 16:59:09 Write Checkpoint #2: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 16:59:15 Write Checkpoint #3: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 16:59:21 Write Checkpoint #4: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 16:59:26 Write Checkpoint #5: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 16:59:32 Write Checkpoint #6: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 16:59:37 Write Checkpoint #7: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 16:59:43 Write Checkpoint #8: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 16:59:48 Write Checkpoint #9: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 16:59:53 Write Checkpoint #10: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 16:59:59 Write Checkpoint #11: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 17:00:04 Write Checkpoint #12: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 17:00:09 Write Checkpoint #13: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 17:00:15 Write Checkpoint #14: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 17:00:20 Write Checkpoint #15: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+31-Oct-2019 17:00:22 Final Checkpoint #16: C:\Users\M_Ali\Desktop\sadra-prj\phase-2\code\compete_layer_chk.mat
+</pre><img vspace="5" hspace="5" src="lvq_01.png" alt=""> <h2 id="9">Part 3-4- Visualization of the cluster proposals for some samples</h2><pre class="codeinput">numOfSamples = 5;
+disp([<span class="string">'Proposals for the first '</span> num2str(numOfSamples) <span class="string">' samples:'</span>])
+classes(1:numOfSamples)
+</pre><pre class="codeoutput">Proposals for the first 5 samples:
+
+ans =
+
+     1     1     3     3     1
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clear; close all; clc
+
+%% Performing clustering with only a "Competitive Layer" (based on LVQ)
+% Competitive learning is a form of unsupervised learning in artificial 
+% neural networks, in which nodes compete for the right to respond to a 
+% subset of the input data. As a variant of Hebbian learning, competitive 
+% learning works by increasing the specialization of each node in the 
+% network. It is well suited to finding clusters within data. (from Wikipedia)
+% 
+% By the word "only", we mean that a one-layer neural net is the only thing
+% that represents our model. For this pupose, the number of clusters should
+% be given to the "competlayer" function as the first input argument.
+
+%% Part 1- Creating a fake dataset
+nRow_fake_dataset = 3000; % it should actually be 30000, but for elapsed 
+% running time of the code, 3000 is chosen.  
+nCol_fake_dataset = 600; % it should actually be 6000, but for elapsed 
+% running time of the code, 600 is chosen.
+
+temp0 = randn(ceil(nRow_fake_dataset/5), ceil(nCol_fake_dataset/5));
+temp1 = repmat(temp0, 5, 5);
+fake_dataset = temp1(1:nRow_fake_dataset, 1:nCol_fake_dataset);
+
+%% Part 2- Performing linear dimensionality reduction (or noise suppression) alg.
+[coeff, score, ~, ~, explained, ~] = pca(fake_dataset);
+explained_variance_threshold = 99.5; % for the FFT dataset, a threshold of 
+% 99 or 99.5 is thought to be more suitable.
+
+cumulative_explained = cumsum(explained);
+numFeatures = find(cumulative_explained >= explained_variance_threshold);
+numFeatures = numFeatures(1);
+
+reduced_dataset_by_pca = score(:, 1:numFeatures);
+size(reduced_dataset_by_pca)
+
+%% Part 3- Performing LVQ-based clustering 
+%% Part 3-1- Preparing (transposing) the dataset matrix
+inputs = reduced_dataset_by_pca.';
+
+%% Part 3-2- Creating a "network" object and configuring its parameters
+numClusters = 3;  numEpochs = 100;
+net = competlayer(numClusters);
+configure(net, inputs);
+net.trainParam.epochs = numEpochs;
+
+%% Part 3-3- Training the network and clustering the dataset
+[net, tr] = train(net, inputs,'CheckpointFile', ...
+    'compete_layer_chk', 'CheckpointDelay', 5);
+
+view(net)
+
+oneHotClasses = net(inputs);
+classes = vec2ind(oneHotClasses);
+
+%% Part 3-4- Visualization of the cluster proposals for some samples
+numOfSamples = 5;
+disp(['Proposals for the first ' num2str(numOfSamples) ' samples:'])
+classes(1:numOfSamples)
+##### SOURCE END #####
+--></body></html>
