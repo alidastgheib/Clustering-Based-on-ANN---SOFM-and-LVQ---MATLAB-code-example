@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://annalyzin.wordpress.com/xmlrpc.php">
+<title>Self-Organizing Maps Tutorial &#8211; Algobeans</title>
+<meta name="google-site-verification" content="LBfeom-t1Uc_FO_LaCv1QP8WXX57tsTNMuR8Qgfgxgg" />
+<meta name="msvalidate.01" content="C4C6C30BD0E6CBC5D9D191B381572C52" />
+<meta name="p:domain_verify" content="82572ff9e3b7cd9e26be215b880810ff" />
+<meta name="yandex-verification" content="7183d6a45b5ee518" />
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//widgets.wp.com' />
+<link rel='dns-prefetch' href='//wordpress.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="application/rss+xml" title="Algobeans &raquo; Feed" href="https://annalyzin.wordpress.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Algobeans &raquo; Comments Feed" href="https://annalyzin.wordpress.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Algobeans &raquo; Self-Organizing Maps Tutorial Comments Feed" href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1572020829h&ver=5.3-beta2-46378"}};
+			!function(e,a,t){var r,n,o,i,p=a.createElement("canvas"),s=p.getContext&&p.getContext("2d");function c(e,t){var a=String.fromCharCode;s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,e),0,0);var r=p.toDataURL();return s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,t),0,0),r===p.toDataURL()}function l(e){if(!s||!s.fillText)return!1;switch(s.textBaseline="top",s.font="600 32px Arial",e){case"flag":return!c([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])&&(!c([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!c([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]));case"emoji":return!c([55357,56424,55356,57342,8205,55358,56605,8205,55357,56424,55356,57340],[55357,56424,55356,57342,8203,55358,56605,8203,55357,56424,55356,57340])}return!1}function d(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(i=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},o=0;o<i.length;o++)t.supports[i[o]]=l(i[o]),t.supports.everything=t.supports.everything&&t.supports[i[o]],"flag"!==i[o]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[i[o]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(r=t.source||{}).concatemoji?d(r.concatemoji):r.wpemoji&&r.twemoji&&(d(r.twemoji),d(r.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s0.wp.com/_static/??-eJyNkUFywyAMRS9UkJ1O6lWnZ7FBcUjAZpAYx7evAs7GbT3dMHz4D0kfWKIy88Q4MYSsos+jmwiWaOagKDiP605pQ/QGv2MJfc9oVZyJd+oI8+6OBDfk2Ju7KuqH/eUds8gB0yg3CeFDd7qBITtvYfBzwYfUpxWIV4//eKZQrxk3ccyaebO1uj1LdeuIa3HSlSz9/MlfsveKHKNC69hN4xYENLo9QUlLpiCu3dTn96dHcT6DkfMQe346glTp0WMQ2xG2ODuifJtYtr1ifBwjNbQhJiRSsgaXg+Kr1Co/+BU+23PXdl1zem9u3ytC53c=?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='wpcom-block-editor-styles-css'  href='//widgets.wp.com/wpcom-block-editor/common.min.css?ver=20190930180734' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-2-1' href='https://s1.wp.com/_static/??/wp-content/mu-plugins/comment-likes/css/comment-likes.css,/i/noticons/noticons.css?m=1436783281j&cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='sela-fonts-css'  href='https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A300%2C300italic%2C400%2C400italic%2C600%7CDroid+Serif%3A400%2C400italic%7COswald%3A300%2C400&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-4-1' href='https://s2.wp.com/_static/??-eJyFjsEKwjAQRH/IuCrGnsRvScM2Rja7IZtQ/HsjvbSIepth3oOBORsvXJErpGYytRBZISBjiX34EvdedQcrt94xoUJuIyiSA61Pwr9UZL+QZs5e0ge/eSSGxLsahTfFTORi+aUWHElCjwE6tapv6ZauR3uxp2E4nO3jBbmDZRY=?cssminify=yes' type='text/css' media='all' />
+<style id='sela-style-inline-css' type='text/css'>
+.tags-links { clip: rect(1px, 1px, 1px, 1px); height: 1px; position: absolute; overflow: hidden; width: 1px; }
+</style>
+<link rel='stylesheet' id='print-css-5-1' href='https://s2.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1465851035h&cssminify=yes' type='text/css' media='print' />
+<link rel='stylesheet' id='all-css-6-1' href='https://s0.wp.com/_static/??-eJx9i0EKAjEMRS9kjYUZBhfiWTKltpE0KU0Grz+4EBHF1X8f3oNHD0nFszi0LXTeCokBJieVFcebjsnsAL/1rubhxkgDrOIgKa/9V5kmQg6sRT/PV+Q1t2xQJyisK/JTuLZLnJfTEs/zFO87xWJJtA==?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyFj9EOwiAMRX9Ihntw0wfjtyCrpAgFKbjo1wuJPrgsmjRpbnpy762co0DSrkzA0ta5FUiP9+osb+QvQHg0SWXoPNIH1oEyUG5sDJw9MCsDK1cfzuhAFIZUAco15hKWnC8iumKQWCZwNWoSzXWhVty/H0G6I8x/MQs5Kn0VCRifrfPJH/vd2B+24zDs7QszQHB9'></script>
+<link rel='stylesheet' id='all-css-0-2' href='https://s0.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1530132353h&cssminify=yes' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://annalyzin.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Layman&#8217;s Guide to A/B&nbsp;Testing' href='https://annalyzin.wordpress.com/2017/07/19/laymans-guide-to-ab-testing/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/" />
+<link rel='shortlink' href='https://wp.me/p6hSwe-1Uc' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fannalyzin.wordpress.com%2F2017%2F11%2F02%2Fself-organizing-map%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fannalyzin.wordpress.com%2F2017%2F11%2F02%2Fself-organizing-map%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Self-Organizing Maps Tutorial" />
+<meta property="og:url" content="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/" />
+<meta property="og:description" content="Visualize large datasets and identify potential clusters with this special breed of neural networks that uses neurons to learn the intrinsic shape of your data." />
+<meta property="article:published_time" content="2017-11-02T02:00:39+00:00" />
+<meta property="article:modified_time" content="2017-11-03T01:00:05+00:00" />
+<meta property="og:site_name" content="Algobeans" />
+<meta property="og:image" content="https://annalyzin.files.wordpress.com/2017/11/som-featureimage3.png?w=1200" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="797" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:creator" content="@algobeans" />
+<meta name="twitter:site" content="@algobeans" />
+<meta name="twitter:text:title" content="Self-Organizing Maps Tutorial" />
+<meta name="twitter:image" content="https://annalyzin.files.wordpress.com/2017/11/som-featureimage3.png?w=640" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="fb:app_id" content="249643311490" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel='openid.server' href='https://annalyzin.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://annalyzin.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://annalyzin.wordpress.com/osd.xml" title="Algobeans" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<meta name="theme-color" content="#f0f0f0" />
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="Algobeans" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Layman Tutorials in Analytics" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://annalyzin.wordpress.com/feed/;icon-uri=https://annalyzin.files.wordpress.com/2017/08/green-x-yellow.png?w=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="Visualize large datasets and identify potential clusters with this special breed of neural networks that uses neurons to learn the intrinsic shape of your data." />
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #f0f0f0; }
+</style>
+	<link rel="amphtml" href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/amp/"><style type="text/css" id="custom-colors-css">.nav-menu>li>a:after{color:rgba(0,0,0,.3)}.main-navigation a,.social-links ul a:before{color:#fff}.menu-toggle,.menu-toggle:hover,.menu-toggle:focus{color:#fff}.main-navigation.toggled ul ul,.main-navigation.toggled ul ul a{color:#fff}.site-info a{color:#fff}.main-navigation li.current_page_ancestor>a,.main-navigation li.current-menu-ancestor>a{color:#d1d1d1}.main-navigation a:hover,.main-navigation ul>:hover>a,.main-navigation ul>.focus>a{color:#d1d1d1}.main-navigation li.current_page_item>a,.main-navigation li.current-menu-item>a{color:#d1d1d1}.main-navigation li.current_page_item>a .sub-menu li a,.main-navigation li.current-menu-item>a .sub-menu li a,.main-navigation ul ul li.current_page_item>a,.main-navigation ul ul li.current-menu-item>a{color:#4f4f4f}body{background-color:#f0f0f0}.main-navigation,button{background-color:#525252}.main-navigation .nav-menu>li>a:after,.main-navigation .menu>li>a:after{color:#848484}a,.entry-title a:hover,.comment-meta a,.jetpack-testimonial .entry-title{color:#525252}.widget_flickr #flickr_badge_uber_wrapper td a:last-child,.widget-area .milestone-countdown .difference{color:#525252}.main-navigation ul ul a:hover,.main-navigation ul ul>li.focus>a{color:#525252}input[type="button"],input[type="reset"],input[type="submit"],#infinite-handle span{background-color:#525252}input[type="text"]:focus,input[type="email"]:focus,input[type="password"]:focus,input[type="search"]:focus,input[type="url"]:focus,textarea:focus{border-color:#525252}.social-links ul a:before,.footer-widget-area button{background-color:#b5b5b5}.site-info a:hover{color:#b5b5b5}.footer-widget-area a:hover{color:#525252}</style>
+<link rel="icon" href="https://annalyzin.files.wordpress.com/2017/08/green-x-yellow.png?w=32" sizes="32x32" />
+<link rel="icon" href="https://annalyzin.files.wordpress.com/2017/08/green-x-yellow.png?w=192" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://annalyzin.files.wordpress.com/2017/08/green-x-yellow.png?w=180" />
+<meta name="msapplication-TileImage" content="https://annalyzin.files.wordpress.com/2017/08/green-x-yellow.png?w=270" />
+</head>
+
+<body class="post-template-default single single-post postid-7328 single-format-standard custom-background customizer-styles-applied display-header-text tags-hidden highlander-enabled highlander-light">
+<div id="page" class="hfeed site">
+	<header id="masthead" class="site-header" role="banner">
+		<a class="skip-link screen-reader-text" href="#content" title="Skip to content">Skip to content</a>
+
+		<div class="site-branding">
+						<h1 class="site-title"><a href="https://annalyzin.wordpress.com/" title="Algobeans" rel="home">Algobeans</a></h1>
+							<h2 class="site-description">Layman Tutorials in Analytics</h2>
+					</div><!-- .site-branding -->
+
+		<nav id="site-navigation" class="main-navigation" role="navigation">
+			<button class="menu-toggle" aria-controls="menu" aria-expanded="false">Menu</button>
+			<div class="menu-primary-menu-container"><ul id="menu-primary-menu" class="menu"><li id="menu-item-5588" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-5588"><a href="https://annalyzin.wordpress.com/">Home</a></li>
+<li id="menu-item-5589" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5589"><a href="https://annalyzin.wordpress.com/about/">About</a></li>
+<li id="menu-item-5590" class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-5590"><a href="https://annalyzin.wordpress.com/all-posts/">All Posts</a></li>
+<li id="menu-item-5591" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5591"><a href="https://annalyzin.wordpress.com/subscribe/">Subscribe</a></li>
+</ul></div>		</nav><!-- #site-navigation -->
+	</header><!-- #masthead -->
+
+	<div id="content" class="site-content">
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+
+		
+			
+				
+<article id="post-7328" class="post-7328 post type-post status-publish format-standard has-post-thumbnail hentry category-tutorial tag-ai tag-algorithms tag-artificial-intelligence tag-clustering tag-colors tag-data-mining tag-self-organizing-maps tag-simulation tag-som tag-visualization with-featured-image">
+
+	
+	<div class="post-thumbnail">
+		<img width="820" height="312" src="https://annalyzin.files.wordpress.com/2017/11/som-featureimage3.png?w=820&amp;h=312&amp;crop=1" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" srcset="https://annalyzin.files.wordpress.com/2017/11/som-featureimage3.png?w=820&amp;h=312&amp;crop=1 820w, https://annalyzin.files.wordpress.com/2017/11/som-featureimage3.png?w=1640&amp;h=624&amp;crop=1 1640w, https://annalyzin.files.wordpress.com/2017/11/som-featureimage3.png?w=150&amp;h=57&amp;crop=1 150w, https://annalyzin.files.wordpress.com/2017/11/som-featureimage3.png?w=300&amp;h=114&amp;crop=1 300w, https://annalyzin.files.wordpress.com/2017/11/som-featureimage3.png?w=768&amp;h=292&amp;crop=1 768w, https://annalyzin.files.wordpress.com/2017/11/som-featureimage3.png?w=500&amp;h=190&amp;crop=1 500w" sizes="(max-width: 820px) 100vw, 820px" data-attachment-id="7372" data-permalink="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/som-featureimage/#main" data-orig-file="https://annalyzin.files.wordpress.com/2017/11/som-featureimage3.png" data-orig-size="1747,1161" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="SOM FeatureImage" data-image-description="" data-medium-file="https://annalyzin.files.wordpress.com/2017/11/som-featureimage3.png?w=300" data-large-file="https://annalyzin.files.wordpress.com/2017/11/som-featureimage3.png?w=500" />	</div>
+
+	
+	<header class="entry-header ">
+					<h1 class="entry-title">Self-Organizing Maps Tutorial</h1>			</header><!-- .entry-header -->
+
+	<div class="entry-body">
+
+				<div class="entry-meta">
+			<span class="date"><a href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/" title="Permalink to Self-Organizing Maps Tutorial" rel="bookmark"><time class="entry-date published" datetime="2017-11-02T10:00:39+08:00">November 2, 2017</time><time class="updated" datetime="2017-11-03T09:00:05+08:00">November 3, 2017</time></a></span>		</div><!-- .entry-meta -->
+		
+				<div class="entry-content">
+			<p><span class="md-line md-end-block">The term &#8216;self-organizing map&#8217; might conjure up a militaristic image of data points marching towards their contingents on a map, which is a rather apt analogy of how the algorithm actually works.</span></p>
+<p><span class="md-line md-end-block md-focus">A <span class=""><em>self-organizing map</em></span> (SOM) is a clustering technique that helps you uncover categories in large datasets, such as to find customer profiles based on a list of past purchases. It is a special breed of unsupervised neural networks, where neurons (also called <span class=""><em>nodes</em></span> or <span class=""><em>reference vectors</em></span><span class="md-expand">) are arranged in a single, 2-dimensional grid, which can take the shape of either rectangles or hexagons.</span></span></p>
+<p>&nbsp;</p>
+<div data-shortcode="caption" id="attachment_7330" style="width: 660px" class="wp-caption aligncenter"><img aria-describedby="caption-attachment-7330" data-attachment-id="7330" data-permalink="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/som-sqhex/#main" data-orig-file="https://annalyzin.files.wordpress.com/2017/10/som-sqhex.png" data-orig-size="1240,454" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="SOM grid shape square hexagonal" data-image-description="&lt;p&gt;SOM grids can either be rectangular or hexagonal.&lt;/p&gt;
+" data-medium-file="https://annalyzin.files.wordpress.com/2017/10/som-sqhex.png?w=300" data-large-file="https://annalyzin.files.wordpress.com/2017/10/som-sqhex.png?w=500" class="alignnone  wp-image-7330" src="https://annalyzin.files.wordpress.com/2017/10/som-sqhex.png?w=650&#038;h=238" alt="SOM grids can either be rectangular or hexagonal." width="650" height="238" srcset="https://annalyzin.files.wordpress.com/2017/10/som-sqhex.png?w=650&amp;h=238 650w, https://annalyzin.files.wordpress.com/2017/10/som-sqhex.png?w=150&amp;h=55 150w, https://annalyzin.files.wordpress.com/2017/10/som-sqhex.png?w=300&amp;h=110 300w, https://annalyzin.files.wordpress.com/2017/10/som-sqhex.png?w=768&amp;h=281 768w, https://annalyzin.files.wordpress.com/2017/10/som-sqhex.png?w=500&amp;h=183 500w, https://annalyzin.files.wordpress.com/2017/10/som-sqhex.png 1240w" sizes="(max-width: 650px) 100vw, 650px" /><p id="caption-attachment-7330" class="wp-caption-text">Figure 1. SOM grids can either be rectangular or hexagonal. Each square or hexagon is a neuron.</p></div>
+<p><span class="md-line md-end-block md-focus"><span class="md-expand">Through multiple iterations, neurons on the grid will gradually coalesce around areas with high density of data points. Hence, areas with many neurons might reflect underlying clusters in the data. As the neurons move, they inadvertently bend and twist the grid to more closely reflect the overall topological shape of our data. </span></span></p>
+<p><span class="md-line md-end-block md-focus">Let&#8217;s see a visual example of how SOM works. The <span class=""><a href="https://github.com/algobeans/Self-Organizing-Map/blob/master/analysis.R">accompanying SOM code in R is on our GitHub page.</a></span></span></p>
+<h2 class="md-end-block md-heading"><span class="">A Visual Walkthrough</span></h2>
+<p><span class="md-line md-end-block"><span class="">One example of a data type with more than two dimensions is color. Colors have three dimensions, typically represented by RGB (red, green, blue) values. In this example, we will see how SOM can distinguish two color clusters. </span></span></p>
+<h3 class="md-end-block md-heading">Data Generation</h3>
+<p>We picked two colors—yellow and green—around which to generate random samples to form two clusters. We can visualize our color clusters using blue and green values, which are the dimensions along which the clusters are most differentiated.</p>
+<div data-shortcode="caption" id="attachment_7368" style="width: 1948px" class="wp-caption alignnone"><img aria-describedby="caption-attachment-7368" data-attachment-id="7368" data-permalink="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/som-rawplot2d3d/#main" data-orig-file="https://annalyzin.files.wordpress.com/2017/11/som-rawplot2d3d.png" data-orig-size="1938,868" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Two color clusters of yellow and green, in 3D and 2D spaces." data-image-description="&lt;p&gt;Two color clusters of yellow and green, in 3D and 2D spaces.&lt;/p&gt;
+" data-medium-file="https://annalyzin.files.wordpress.com/2017/11/som-rawplot2d3d.png?w=300" data-large-file="https://annalyzin.files.wordpress.com/2017/11/som-rawplot2d3d.png?w=500" class="alignnone size-full wp-image-7368" src="https://annalyzin.files.wordpress.com/2017/11/som-rawplot2d3d.png?w=620" alt="Two color clusters of yellow and green, in 3D and 2D spaces." srcset="https://annalyzin.files.wordpress.com/2017/11/som-rawplot2d3d.png?w=620 620w, https://annalyzin.files.wordpress.com/2017/11/som-rawplot2d3d.png?w=1240 1240w, https://annalyzin.files.wordpress.com/2017/11/som-rawplot2d3d.png?w=150 150w, https://annalyzin.files.wordpress.com/2017/11/som-rawplot2d3d.png?w=300 300w, https://annalyzin.files.wordpress.com/2017/11/som-rawplot2d3d.png?w=768 768w, https://annalyzin.files.wordpress.com/2017/11/som-rawplot2d3d.png?w=500 500w" sizes="(max-width: 620px) 100vw, 620px"   /><p id="caption-attachment-7368" class="wp-caption-text">Figure 2. Two color clusters of yellow and green, in 3D and 2D spaces.</p></div>
+<h3 class="md-end-block md-heading">Data Analysis</h3>
+<p><span class="md-line md-end-block"><span class="">It&#8217;s time to build our SOM. We used an 8 x 8 rectangular grid, so there were 64 neurons in total. Initially, neurons in the SOM grid start out in random positions, but they are gradually massaged into a mould outlining the shape of our data. This is an iterative process, which we can watch from the animated GIF below:</span></span></p>
+<div data-shortcode="caption" id="attachment_7369" style="width: 610px" class="wp-caption alignnone"><img aria-describedby="caption-attachment-7369" data-attachment-id="7369" data-permalink="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/som-iterateanimate-2/#main" data-orig-file="https://annalyzin.files.wordpress.com/2017/11/som-iterateanimate.gif" data-orig-size="600,600" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="SOM-iterateAnimate" data-image-description="&lt;p&gt;Figure 3. Animated GIF showing how an SOM grid evolves to take the shape of our data. Note that the visualization is a top-down view of the data, and the neurons are actually moving in three dimensions&lt;/p&gt;
+" data-medium-file="https://annalyzin.files.wordpress.com/2017/11/som-iterateanimate.gif?w=300" data-large-file="https://annalyzin.files.wordpress.com/2017/11/som-iterateanimate.gif?w=500" class="alignnone size-full wp-image-7369" src="https://annalyzin.files.wordpress.com/2017/11/som-iterateanimate.gif?w=620" alt="Figure 3. Animated GIF showing how an SOM grid evolves to take the shape of our data. Note that the visualization is a top-down view of the data, and the neurons are actually moving in three dimensions"   /><p id="caption-attachment-7369" class="wp-caption-text">Figure 3. Animated GIF showing how an SOM grid evolves to take the shape of our data. Note that the visualization is a top-down view of the data, and the neurons are actually moving in three dimensions</p></div>
+<p><span class="md-line md-end-block"> </span></p>
+<p><span class="md-line md-end-block">We can see that the grid&#8217;s shape stabilizes after a couple of hundred iterations. To check that the algorithm has converged, we can plot the evolution of the SOM&#8217;s energy—initially, the SOM evolves rapidly, but as it reaches the approximate shape of the data, the rate of change slows down.</span></p>
+<div data-shortcode="caption" id="attachment_7340" style="width: 436px" class="wp-caption aligncenter"><img aria-describedby="caption-attachment-7340" data-attachment-id="7340" data-permalink="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/som-iterations/#main" data-orig-file="https://annalyzin.files.wordpress.com/2017/10/som-iterations.png" data-orig-size="2010,1863" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Number of iterations taken for neurons in the SOM grid to stabilize." data-image-description="&lt;p&gt;Number of iterations taken for neurons in the SOM grid to stabilize.&lt;/p&gt;
+" data-medium-file="https://annalyzin.files.wordpress.com/2017/10/som-iterations.png?w=300" data-large-file="https://annalyzin.files.wordpress.com/2017/10/som-iterations.png?w=500" class="alignnone  wp-image-7340" src="https://annalyzin.files.wordpress.com/2017/10/som-iterations.png?w=426&#038;h=395" alt="SOM-iterations" width="426" height="395" srcset="https://annalyzin.files.wordpress.com/2017/10/som-iterations.png?w=426&amp;h=395 426w, https://annalyzin.files.wordpress.com/2017/10/som-iterations.png?w=852&amp;h=790 852w, https://annalyzin.files.wordpress.com/2017/10/som-iterations.png?w=150&amp;h=139 150w, https://annalyzin.files.wordpress.com/2017/10/som-iterations.png?w=300&amp;h=278 300w, https://annalyzin.files.wordpress.com/2017/10/som-iterations.png?w=768&amp;h=712 768w, https://annalyzin.files.wordpress.com/2017/10/som-iterations.png?w=500&amp;h=463 500w" sizes="(max-width: 426px) 100vw, 426px" /><p id="caption-attachment-7340" class="wp-caption-text">Figure 4. Evolution of the SOM’s energy. It took about 150 iterations for neurons in the SOM grid to stabilize.</p></div>
+<p><span class="md-line md-end-block"><span class="">To get an overview of how many data points each neuron corresponded to, we can plot a frequency map of the grid, shown below. Each neuron is represented by a square, and the pink region within the square represents the relative number of data points that neuron is positioned closest to—the larger the pink area, the more data points represented by that neuron.</span></span></p>
+<div data-shortcode="caption" id="attachment_7343" style="width: 426px" class="wp-caption aligncenter"><img aria-describedby="caption-attachment-7343" data-attachment-id="7343" data-permalink="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/som-heatmap/#main" data-orig-file="https://annalyzin.files.wordpress.com/2017/10/som-heatmap.png" data-orig-size="2100,2100" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Frequency map of neurons in the SOM grid." data-image-description="&lt;p&gt;Frequency map of neurons in the SOM grid.&lt;/p&gt;
+" data-medium-file="https://annalyzin.files.wordpress.com/2017/10/som-heatmap.png?w=300" data-large-file="https://annalyzin.files.wordpress.com/2017/10/som-heatmap.png?w=500" class="alignnone  wp-image-7343" src="https://annalyzin.files.wordpress.com/2017/10/som-heatmap.png?w=416&#038;h=416" alt="SOM-heatmap" width="416" height="416" srcset="https://annalyzin.files.wordpress.com/2017/10/som-heatmap.png?w=416&amp;h=416 416w, https://annalyzin.files.wordpress.com/2017/10/som-heatmap.png?w=832&amp;h=832 832w, https://annalyzin.files.wordpress.com/2017/10/som-heatmap.png?w=150&amp;h=150 150w, https://annalyzin.files.wordpress.com/2017/10/som-heatmap.png?w=300&amp;h=300 300w, https://annalyzin.files.wordpress.com/2017/10/som-heatmap.png?w=768&amp;h=768 768w, https://annalyzin.files.wordpress.com/2017/10/som-heatmap.png?w=500&amp;h=500 500w" sizes="(max-width: 416px) 100vw, 416px" /><p id="caption-attachment-7343" class="wp-caption-text">Figure 5. Frequency map of neurons in an 8 x 8 SOM grid.</p></div>
+<p><span class="md-line md-end-block">From the frequency map, we can see a clear divide separating a top left neuron cluster from a smaller bottom right cluster. This divide is represented by the neurons in-between with small or no pink squares.</span></p>
+<p><span class="md-line md-end-block"><span class=""><span class="md-expand">To verify that there is indeed a divide, we can plot what&#8217;s called a </span><em>U-matrix</em>, which visualizes how much neurons differ from each other in 2-dimensional space. When two neurons correspond to vastly different sets of data points, they would be separated by a larger distance, denoted by a pink color. On the other hand, neurons representing similar data points are separated by shorter distances, denoted by a blue color.</span></span></p>
+<div data-shortcode="caption" id="attachment_7346" style="width: 504px" class="wp-caption aligncenter"><img aria-describedby="caption-attachment-7346" data-attachment-id="7346" data-permalink="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/som-umatrix/#main" data-orig-file="https://annalyzin.files.wordpress.com/2017/10/som-umatrix.png" data-orig-size="1901,1948" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="U-matrix showing similarity and dissimilarity netween neurons. Useful for identifying superclusters." data-image-description="&lt;p&gt;U-matrix showing similarity and dissimilarity netween neurons. Useful for identifying superclusters.&lt;/p&gt;
+" data-medium-file="https://annalyzin.files.wordpress.com/2017/10/som-umatrix.png?w=293" data-large-file="https://annalyzin.files.wordpress.com/2017/10/som-umatrix.png?w=488" class="alignnone  wp-image-7346" src="https://annalyzin.files.wordpress.com/2017/10/som-umatrix.png?w=494&#038;h=506" alt="SOM-umatrix" width="494" height="506" srcset="https://annalyzin.files.wordpress.com/2017/10/som-umatrix.png?w=494&amp;h=506 494w, https://annalyzin.files.wordpress.com/2017/10/som-umatrix.png?w=988&amp;h=1012 988w, https://annalyzin.files.wordpress.com/2017/10/som-umatrix.png?w=146&amp;h=150 146w, https://annalyzin.files.wordpress.com/2017/10/som-umatrix.png?w=293&amp;h=300 293w, https://annalyzin.files.wordpress.com/2017/10/som-umatrix.png?w=768&amp;h=787 768w, https://annalyzin.files.wordpress.com/2017/10/som-umatrix.png?w=488&amp;h=500 488w" sizes="(max-width: 494px) 100vw, 494px" /><p id="caption-attachment-7346" class="wp-caption-text">Figure 6. U-matrix showing similarity and dissimilarity between neurons. Useful for identifying clusters.</p></div>
+<p><span class="md-line md-end-block"><span class="">Comparing the sizes of neuron clusters, we can infer that the bigger cluster in the top left probably corresponds to the larger group of yellow data points, leaving the smaller bottom right cluster to correspond to green data points.</span></span></p>
+<p><span class="md-line md-end-block md-focus"><span class="md-expand">To check if we labelled the clusters correctly, we can infer a color profile for each neuron, by averaging the RGB values of data points associated with that neuron:</span></span></p>
+<div data-shortcode="caption" id="attachment_7349" style="width: 548px" class="wp-caption aligncenter"><img aria-describedby="caption-attachment-7349" data-attachment-id="7349" data-permalink="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/som-radar/#main" data-orig-file="https://annalyzin.files.wordpress.com/2017/10/som-radar.png" data-orig-size="1758,1486" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Radar plots showing the aggregated profile of each neuron, as determined by their constituent data points." data-image-description="&lt;p&gt;Radar plots showing the aggregated profile of each neuron, as determined by their constituent data points.&lt;/p&gt;
+" data-medium-file="https://annalyzin.files.wordpress.com/2017/10/som-radar.png?w=300" data-large-file="https://annalyzin.files.wordpress.com/2017/10/som-radar.png?w=500" class="alignnone  wp-image-7349" src="https://annalyzin.files.wordpress.com/2017/10/som-radar.png?w=538&#038;h=455" alt="SOM-radar" width="538" height="455" srcset="https://annalyzin.files.wordpress.com/2017/10/som-radar.png?w=538&amp;h=455 538w, https://annalyzin.files.wordpress.com/2017/10/som-radar.png?w=1076&amp;h=910 1076w, https://annalyzin.files.wordpress.com/2017/10/som-radar.png?w=150&amp;h=127 150w, https://annalyzin.files.wordpress.com/2017/10/som-radar.png?w=300&amp;h=254 300w, https://annalyzin.files.wordpress.com/2017/10/som-radar.png?w=768&amp;h=649 768w, https://annalyzin.files.wordpress.com/2017/10/som-radar.png?w=500&amp;h=423 500w" sizes="(max-width: 538px) 100vw, 538px" /><p id="caption-attachment-7349" class="wp-caption-text">Figure 7. Radar plots showing the aggregated profile of each neuron, as determined by their constituent data points.</p></div>
+<p><span class="md-line md-end-block md-focus"><span class="md-expand">From the radar plots, we can observe that the neurons in the top left have data points of high red and green values, and combining these two colors in light gives us, as you&#8217;d have guessed, yellow. Conversely, the remaining neurons on the bottom right are characterized by data points with high values of blue and a slight tinge of green, which would give us a bluish green hue.</span></span></p>
+<p><span class="md-line md-end-block"><span class=""><span class="md-expand">By representing data with multiple variables in just two dimensions, the SOM grid is well-suited for data visualization (it works similarly to another famous technique called </span><em>t-SNE</em>). While the 2-dimesional space is popular due to its use for visualization, the SOM is a general dimension reduction technique that can simplify a dataset to any number of variables, and is closely related to <a href="https://algobeans.com/2016/06/15/principal-component-analysis-tutorial/">what we learned previously on principal components analysis</a>.</span></span></p>
+<p><span class="md-line md-end-block md-focus">Now that you&#8217;ve seen how SOM effectively identifies clusters, we will explain how it works under the hood.</span></p>
+<h2 class="md-end-block md-heading"><span class="">How does SOM Work?</span></h2>
+<p><span class="md-line md-end-block md-focus"><span class="md-expand">In a nutshell, an SOM comprises neurons in the grid, which gradually adapt to the intrinsic shape of our data. The final result allows us to visualize data points and identify clusters in a lower dimension.</span></span></p>
+<p><span class="md-line md-end-block"><span class="">So how does the SOM grid learn the shape of our data? Well, this is done in an iterative process, which is summarized in the following steps, and visualized in the animated GIF below:</span></span></p>
+<p><span class="md-line md-end-block"><span class=""><strong>Step 0</strong></span>: Randomly position the grid&#8217;s neurons in the data space.</span></p>
+<p><span class="md-line md-end-block"><span class=""><strong>Step 1</strong></span>: Select one data point, either randomly or systematically cycling through the dataset in order</span></p>
+<p><span class="md-line md-end-block"><span class=""><strong>Step 2</strong></span><span class="">: Find the neuron that is closest to the chosen data point. This neuron is called the Best Matching Unit (BMU).</span></span></p>
+<p><span class="md-line md-end-block"><span class=""><strong>Step 3</strong></span>: Move the BMU closer to that data point. The distance moved by the BMU is determined by a <span class=""><em>learning rate</em></span>, which decreases after each iteration.</span></p>
+<p><span class="md-line md-end-block"><span class=""><strong>Step 4</strong></span>: Move the BMU&#8217;s neighbors closer to that data point as well, with farther away neighbors moving less. Neighbors are identified using a radius around the BMU, and the value for this radius decreases after each iteration.</span></p>
+<p><span class="md-line md-end-block md-focus"><span class=""><strong>Step 5</strong></span>: Update the learning rate and BMU radius, before repeating Steps 1 to 4. Iterate these steps until positions of neurons have been stabilized.</span></p>
+<div data-shortcode="caption" id="attachment_7365" style="width: 619px" class="wp-caption aligncenter"><img aria-describedby="caption-attachment-7365" data-attachment-id="7365" data-permalink="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/som-explaingif/#main" data-orig-file="https://annalyzin.files.wordpress.com/2017/11/som-explaingif.gif" data-orig-size="771,379" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="SOM-explainGIF" data-image-description="&lt;p&gt;Iterative process of an SOM.&lt;/p&gt;
+" data-medium-file="https://annalyzin.files.wordpress.com/2017/11/som-explaingif.gif?w=300" data-large-file="https://annalyzin.files.wordpress.com/2017/11/som-explaingif.gif?w=500" class="alignnone  wp-image-7365" src="https://annalyzin.files.wordpress.com/2017/11/som-explaingif.gif?w=609&#038;h=299" alt="Iterative process of an SOM." width="609" height="299" /><p id="caption-attachment-7365" class="wp-caption-text">Figure 8. Iterative process of an SOM.</p></div>
+<p><span class="md-line md-end-block md-focus"><span class="md-expand">The learning rate and BMU radius should be tuned via validation. If values for both are too high, neurons will be shoved around constantly without settling down. But if values are too low, the analysis will take too long as neurons inch towards their optimal positions. Hence, it is ideal to start with larger learning rate and BMU radius first, before reducing them over time.</span></span></p>
+<p><span class="md-line md-end-block"><span class="">Another feature that we need to validate is the optimal number of neurons in the grid. Recall that because each neuron has multiple data points associated with it, it can be treated as a mini-cluster. We can thus validate each neuron to see if its associated data points correspond to known sub-clusters of, say, consumer profiles. In order for such clusters to be distilled however, there should be fewer neurons than data points, so that similar data points can be mapped to each neuron.</span></span></p>
+<p><span class="md-line md-end-block">One thing to note before we apply SOM: Variables measured in different units could interfere with the speed and accuracy of our analysis. For example, a variable measured in centimeters would have a value 100 times larger than the same one measured in meters. To prevent any variable from overpowering the others, we need to <span class=""><em>standardize</em></span><span class="md-expand"> all variables. Standardization is analogous to expressing each variable in terms of percentiles, meaning to shift them onto a uniform standard scale, so that they are of the same measurement unit.</span></span></p>
+<h2 class="md-end-block md-heading"><span class="">Limitations of SOM</span></h2>
+<p><span class="md-line md-end-block md-focus"><span class="md-expand">SOM simplifies datasets with many variables, which is useful for visualization and identifying clusters. However, it has several drawbacks:</span></span></p>
+<p><span class="md-line md-end-block md-focus"><span class=""><strong>Does not handle categorical variables well</strong></span><span class="">. To obtain a scatterplot with good data spread to identify clusters, SOM will have to assume that all variables in the dataset are continuous. Plotting categorical values will result in data points lining up at discrete values instead of spreading across the plot.</span></span></p>
+<p><span class="md-line md-end-block"><span class="md-line md-end-block md-focus"><span class="md-expand"><strong>Computationally expensive</strong></span><span class="">. A dataset with more variables would require </span></span><span class="md-line md-end-block md-focus"><span class="">longer times to calculate distances and identify BMUs. To expedite computations, we could improve our initial positions of neurons from a random state to a more informed approximation with the help of a </span><span class=""><a href="https://algobeans.com/2016/06/15/principal-component-analysis-tutorial/">simpler dimension reduction technique, such as principal components analysis</a></span>. By starting the neurons off closer to the data points, less time would be needed to move them to their optimal locations.</span></span></p>
+<p><span class="md-line md-end-block md-focus"><span class=""><strong>Potentially inconsistent solutions</strong></span><span class="">. As initial positions of neurons differ each time the SOM analysis is run, the eventual SOM map generated will also differ. Sometimes, overly large clusters may be split up and represented by two separate clusters of neurons. Therefore, before concluding on the number of clusters, the SOM analysis can be repeated to check for consistency, and resulting clusters should be validated against actual cases.</span></span></p>
+<h2 class="md-end-block md-heading"><span class="">Summary</span></h2>
+<ul class="ul-list">
+<li class="md-focus-container"><span class="md-line md-end-block md-focus"><span class="md-expand">A <em>self-organizing map</em> (SOM) is a grid of neurons which adapt to the topological shape of a dataset, allowing us to visualize large datasets and identify potential clusters. </span></span></li>
+<li class="md-focus-container"><span class="md-line md-end-block md-focus"><span class="md-expand">An SOM learns the shape of a dataset by repeatedly moving its neurons closer to the data points. Distinct groups of neurons may thus reflect underlying clusters in the data.</span></span></li>
+<li class=""><span class="md-line md-end-block"><span class="">SOMs are best for datasets with continuous variables, and it should be repeated to check for consistency. Resulting clusters should also be validated.</span></span></li>
+</ul>
+<p>&nbsp;</p>
+<p>Did you learn something useful today? We would be glad to inform you when we have new tutorials, so that your learning continues!</p>
+<p>Sign up below to get bite-sized tutorials delivered to your inbox:</p>
+<p><a href="http://eepurl.com/cbVFY1" target="_blank" rel="noopener"><img data-attachment-id="6434" data-permalink="https://annalyzin.wordpress.com/sign-up-button-transparent-bg-and-cropped/" data-orig-file="https://annalyzin.files.wordpress.com/2016/08/sign-up-button-transparent-bg-and-cropped.png" data-orig-size="544,88" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="sign up button (transparent bg and cropped)" data-image-description="" data-medium-file="https://annalyzin.files.wordpress.com/2016/08/sign-up-button-transparent-bg-and-cropped.png?w=300" data-large-file="https://annalyzin.files.wordpress.com/2016/08/sign-up-button-transparent-bg-and-cropped.png?w=500" class="alignnone  wp-image-6434" src="https://annalyzin.files.wordpress.com/2016/08/sign-up-button-transparent-bg-and-cropped.png?w=340&#038;h=55" alt="Free Data Science Tutorials" width="340" height="55" srcset="https://annalyzin.files.wordpress.com/2016/08/sign-up-button-transparent-bg-and-cropped.png?w=340&amp;h=55 340w, https://annalyzin.files.wordpress.com/2016/08/sign-up-button-transparent-bg-and-cropped.png?w=150&amp;h=24 150w, https://annalyzin.files.wordpress.com/2016/08/sign-up-button-transparent-bg-and-cropped.png?w=300&amp;h=49 300w, https://annalyzin.files.wordpress.com/2016/08/sign-up-button-transparent-bg-and-cropped.png?w=500&amp;h=81 500w, https://annalyzin.files.wordpress.com/2016/08/sign-up-button-transparent-bg-and-cropped.png 544w" sizes="(max-width: 340px) 100vw, 340px" /></a></p>
+<p><em>Copyright © 2015-Present Algobeans.com. All rights reserved. Be a cool bean.</em></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-7328" class="share-facebook sd-button share-icon no-text" href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/?share=facebook" target="_blank" title="Click to share on Facebook"><span></span><span class="sharing-screen-reader-text">Click to share on Facebook (Opens in new window)</span></a></li><li class="share-linkedin"><a rel="nofollow noopener noreferrer" data-shared="sharing-linkedin-7328" class="share-linkedin sd-button share-icon no-text" href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/?share=linkedin" target="_blank" title="Click to share on LinkedIn"><span></span><span class="sharing-screen-reader-text">Click to share on LinkedIn (Opens in new window)</span></a></li><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-7328" class="share-twitter sd-button share-icon no-text" href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/?share=twitter" target="_blank" title="Click to share on Twitter"><span></span><span class="sharing-screen-reader-text">Click to share on Twitter (Opens in new window)</span></a></li><li class="share-reddit"><a rel="nofollow noopener noreferrer" data-shared="" class="share-reddit sd-button share-icon no-text" href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/?share=reddit" target="_blank" title="Click to share on Reddit"><span></span><span class="sharing-screen-reader-text">Click to share on Reddit (Opens in new window)</span></a></li><li class="share-email"><a rel="nofollow noopener noreferrer" data-shared="" class="share-email sd-button share-icon no-text" href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/?share=email" target="_blank" title="Click to email this to a friend"><span></span><span class="sharing-screen-reader-text">Click to email this to a friend (Opens in new window)</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-92919166-7328-5db69d6113208' data-src='//widgets.wp.com/likes/index.html?ver=20190321#blog_id=92919166&amp;post_id=7328&amp;origin=annalyzin.wordpress.com&amp;obj_id=92919166-7328-5db69d6113208' data-name='like-post-frame-92919166-7328-5db69d6113208'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div>					</div><!-- .entry-content -->
+		
+				<footer class="entry-meta">
+			<span class="cat-links">Posted in: <a href="https://annalyzin.wordpress.com/category/tutorial/" rel="category tag">Tutorial</a></span><span class="sep"> | </span><span class="tags-links">Tagged: <a href="https://annalyzin.wordpress.com/tag/ai/" rel="tag">AI</a>, <a href="https://annalyzin.wordpress.com/tag/algorithms/" rel="tag">algorithms</a>, <a href="https://annalyzin.wordpress.com/tag/artificial-intelligence/" rel="tag">artificial intelligence</a>, <a href="https://annalyzin.wordpress.com/tag/clustering/" rel="tag">clustering</a>, <a href="https://annalyzin.wordpress.com/tag/colors/" rel="tag">colors</a>, <a href="https://annalyzin.wordpress.com/tag/data-mining/" rel="tag">data mining</a>, <a href="https://annalyzin.wordpress.com/tag/self-organizing-maps/" rel="tag">self-organizing maps</a>, <a href="https://annalyzin.wordpress.com/tag/simulation/" rel="tag">simulation</a>, <a href="https://annalyzin.wordpress.com/tag/som/" rel="tag">SOM</a>, <a href="https://annalyzin.wordpress.com/tag/visualization/" rel="tag">visualization</a></span>		</footer><!-- .entry-meta -->
+		
+			</div><!-- .entry-body -->
+
+</article><!-- #post-## -->
+
+					<nav class="navigation post-navigation" role="navigation">
+		<h1 class="screen-reader-text">Post navigation</h1>
+		<div class="nav-links">
+			<div class="nav-previous"><a href="https://annalyzin.wordpress.com/2017/07/19/laymans-guide-to-ab-testing/" rel="prev"><span class="meta-nav"></span>&nbsp;Layman&#8217;s Guide to A/B&nbsp;Testing</a></div>		</div><!-- .nav-links -->
+	</nav><!-- .navigation -->
+	
+				
+	<div id="comments" class="comments-area">
+
+			<h2 class="comments-title">
+			7 thoughts on &ldquo;<span>Self-Organizing Maps Tutorial</span>&rdquo;		</h2>
+
+		
+		<ol class="comment-list">
+			
+	<li id="comment-945" class="comment even thread-even depth-1 highlander-comment">
+		<article id="div-comment-945" class="comment-body">
+
+			<header class="comment-meta">
+				<cite class="fn">giorgi</cite> <span class="says">says:</span>
+				<div class="comment-metadata">
+					<a href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/#comment-945">
+						<time datetime="2018-10-25T01:14:10+08:00">
+							October 25, 2018 at 1:14 am						</time>
+					</a>
+				</div><!-- .comment-metadata -->
+
+				
+				<div class="comment-tools">
+					
+					<span class="reply"><a rel='nofollow' class='comment-reply-link' href='https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/?replytocom=945#respond' data-commentid="945" data-postid="7328" data-belowelement="div-comment-945" data-respondelement="respond" aria-label='Reply to giorgi'>Reply</a></span>				</div><!-- .comment-tools -->
+			</header><!-- .comment-meta -->
+
+			<div class="comment-author vcard">
+				<img alt='' src='https://1.gravatar.com/avatar/d60d02892ceacf686379200a3c0aee77?s=48&#038;d=monsterid&#038;r=G' class='avatar avatar-48' height='48' width='48' />			</div><!-- .comment-author -->
+
+			<div class="comment-content">
+				<p>great post</p>
+<p id="comment-like-945" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/?like_comment=945&#038;_wpnonce=f14b3ab65c" class="comment-like-link needs-login" rel="nofollow" data-blog="92919166"><span>Like</span></a><span id="comment-like-count-945" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	</li><!-- #comment-## -->
+
+	<li id="comment-840" class="pingback odd alt thread-odd thread-alt depth-1 highlander-comment">
+		<div class="comment-body">
+			Pingback: <a href='http://www.geo-blog.com/soms-for-geographical-data/' rel='external nofollow ugc' class='url'>Machine Learning to Explore Geographical Data &#8211; Geo Blog &#8211; Geoscienstists sharing their ideas and projects</a> 		</div>
+
+	</li><!-- #comment-## -->
+
+	<li id="comment-728" class="comment even thread-even depth-1 highlander-comment">
+		<article id="div-comment-728" class="comment-body">
+
+			<header class="comment-meta">
+				<cite class="fn">Spencer</cite> <span class="says">says:</span>
+				<div class="comment-metadata">
+					<a href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/#comment-728">
+						<time datetime="2018-07-05T06:55:55+08:00">
+							July 5, 2018 at 6:55 am						</time>
+					</a>
+				</div><!-- .comment-metadata -->
+
+				
+				<div class="comment-tools">
+					
+					<span class="reply"><a rel='nofollow' class='comment-reply-link' href='https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/?replytocom=728#respond' data-commentid="728" data-postid="7328" data-belowelement="div-comment-728" data-respondelement="respond" aria-label='Reply to Spencer'>Reply</a></span>				</div><!-- .comment-tools -->
+			</header><!-- .comment-meta -->
+
+			<div class="comment-author vcard">
+				<img alt='' src='https://0.gravatar.com/avatar/3706722bb5a20373c982cb6c1ac309fd?s=48&#038;d=monsterid&#038;r=G' class='avatar avatar-48' height='48' width='48' />			</div><!-- .comment-author -->
+
+			<div class="comment-content">
+				<p>Hi, great post! Can I ask for an explanation on the R code where you remove the crisscross pts? How do we know that these points will crisscross? The logic written makes it so that for every pt %% 8 == 0 or 1 a value +/- 1 from the pt will be removed from the pt_neighbor variable.</p>
+<p id="comment-like-728" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/?like_comment=728&#038;_wpnonce=7c2d01ac94" class="comment-like-link needs-login" rel="nofollow" data-blog="92919166"><span>Like</span></a><span id="comment-like-count-728" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	</li><!-- #comment-## -->
+
+	<li id="comment-688" class="comment odd alt thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-688" class="comment-body">
+
+			<header class="comment-meta">
+				<cite class="fn">Sergei</cite> <span class="says">says:</span>
+				<div class="comment-metadata">
+					<a href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/#comment-688">
+						<time datetime="2018-04-25T00:22:18+08:00">
+							April 25, 2018 at 12:22 am						</time>
+					</a>
+				</div><!-- .comment-metadata -->
+
+				
+				<div class="comment-tools">
+					
+					<span class="reply"><a rel='nofollow' class='comment-reply-link' href='https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/?replytocom=688#respond' data-commentid="688" data-postid="7328" data-belowelement="div-comment-688" data-respondelement="respond" aria-label='Reply to Sergei'>Reply</a></span>				</div><!-- .comment-tools -->
+			</header><!-- .comment-meta -->
+
+			<div class="comment-author vcard">
+				<img alt='' src='https://0.gravatar.com/avatar/3805c7f257506cb2a22f9fd9362eb7a5?s=48&#038;d=monsterid&#038;r=G' class='avatar avatar-48' height='48' width='48' />			</div><!-- .comment-author -->
+
+			<div class="comment-content">
+				<p>that is awesome!</p>
+<p id="comment-like-688" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/?like_comment=688&#038;_wpnonce=d6c87fbd41" class="comment-like-link needs-login" rel="nofollow" data-blog="92919166"><span>Like</span></a><span id="comment-like-count-688" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	</li><!-- #comment-## -->
+
+	<li id="comment-615" class="pingback even thread-even depth-1 highlander-comment">
+		<div class="comment-body">
+			Pingback: <a href='https://mineracaodedados.wordpress.com/2018/02/11/do-you-know-about-self-organizing-maps/' rel='external nofollow ugc' class='url'>Do you know about Self-Organizing Maps? &#8211; Data Mining / Machine Learning / Data Analysis</a> 		</div>
+
+	</li><!-- #comment-## -->
+
+	<li id="comment-558" class="comment odd alt thread-odd thread-alt depth-1 highlander-comment">
+		<article id="div-comment-558" class="comment-body">
+
+			<header class="comment-meta">
+				<cite class="fn">dANIEL</cite> <span class="says">says:</span>
+				<div class="comment-metadata">
+					<a href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/#comment-558">
+						<time datetime="2017-11-16T02:09:03+08:00">
+							November 16, 2017 at 2:09 am						</time>
+					</a>
+				</div><!-- .comment-metadata -->
+
+				
+				<div class="comment-tools">
+					
+					<span class="reply"><a rel='nofollow' class='comment-reply-link' href='https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/?replytocom=558#respond' data-commentid="558" data-postid="7328" data-belowelement="div-comment-558" data-respondelement="respond" aria-label='Reply to dANIEL'>Reply</a></span>				</div><!-- .comment-tools -->
+			</header><!-- .comment-meta -->
+
+			<div class="comment-author vcard">
+				<img alt='' src='https://0.gravatar.com/avatar/f5444dba935963a5033751f9d25fd614?s=48&#038;d=monsterid&#038;r=G' class='avatar avatar-48' height='48' width='48' />			</div><!-- .comment-author -->
+
+			<div class="comment-content">
+				<p>Great tutorial. How do you define the energy for the SOM?</p>
+<p id="comment-like-558" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://annalyzin.wordpress.com/2017/11/02/self-organizing-map/?like_comment=558&#038;_wpnonce=c3899e4c13" class="comment-like-link needs-login" rel="nofollow" data-blog="92919166"><span>Like</span></a><span id="comment-like-count-558" class="comment-like-feedback">Like</span></p>
+			</div><!-- .comment-content -->
+		</article><!-- .comment-body -->
+
+	</li><!-- #comment-## -->
+
+	<li id="comment-544" class="pingback even thread-even depth-1 highlander-comment">
+		<div class="comment-body">
+			Pingback: <a href='http://abunchofdata.com/laymans-tutorial-to-self-organizing-maps/' rel='external nofollow ugc' class='url'>Layman’s Tutorial to Self-Organizing Maps | A bunch of data</a> 		</div>
+
+	</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2017/11/02/self-organizing-map/#respond" style="display:none;">Cancel reply</a></small></h3><form action="https://annalyzin.wordpress.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate><input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="7f49c80f0c" /><input type="hidden" name="_wp_http_referer" value="/2017/11/02/self-organizing-map/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" class="nascar-signin-link"
+                   title="Login via Guest">
+									</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" class="nascar-signin-link"
+                   title="Login via WordPress.com">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#0087be" d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.05-.18 2.986-.51-.024-.037-.046-.078-.065-.123l-2.762-7.57zM3.008 12c0 3.56 2.07 6.634 5.068 8.092L3.788 8.342c-.5 1.117-.78 2.354-.78 3.658zm15.06-.454c0-1.112-.398-1.88-.74-2.48-.456-.74-.883-1.368-.883-2.11 0-.825.627-1.595 1.51-1.595.04 0 .078.006.116.008-1.598-1.464-3.73-2.36-6.07-2.36-3.14 0-5.904 1.613-7.512 4.053.21.008.41.012.58.012.94 0 2.395-.114 2.395-.114.484-.028.54.684.057.74 0 0-.487.058-1.03.086l3.275 9.74 1.968-5.902-1.4-3.838c-.485-.028-.944-.085-.944-.085-.486-.03-.43-.77.056-.742 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.486-.028.543.684.058.74 0 0-.488.058-1.03.086l3.25 9.665.897-2.997c.456-1.17.684-2.137.684-2.907zm1.82-3.86c.04.286.06.593.06.924 0 .912-.17 1.938-.683 3.22l-2.746 7.94c2.672-1.558 4.47-4.454 4.47-7.77 0-1.564-.4-3.033-1.1-4.314zM12 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></g></svg>				</a>
+			</li>
+			<li>
+			<iframe id="googleplus-sign-in" name="googleplus-sign-in" src="https://public-api.wordpress.com/connect/?googleplus-sign-in=https%3A%2F%2Fannalyzin.wordpress.com&#038;color_scheme=light" width="24" height="24" scrolling="no" allowtransparency="true" seamless="seamless" frameborder="0"></iframe>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" class="nascar-signin-link"
+                   title="Login via Twitter">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#1DA1F2" d="M22.23 5.924c-.736.326-1.527.547-2.357.646.847-.508 1.498-1.312 1.804-2.27-.793.47-1.67.812-2.606.996C18.325 4.498 17.258 4 16.078 4c-2.266 0-4.103 1.837-4.103 4.103 0 .322.036.635.106.935-3.41-.17-6.433-1.804-8.457-4.287-.353.607-.556 1.312-.556 2.064 0 1.424.724 2.68 1.825 3.415-.673-.022-1.305-.207-1.86-.514v.052c0 1.988 1.415 3.647 3.293 4.023-.344.095-.707.145-1.08.145-.265 0-.522-.026-.773-.074.522 1.63 2.038 2.817 3.833 2.85-1.404 1.1-3.174 1.757-5.096 1.757-.332 0-.66-.02-.98-.057 1.816 1.164 3.973 1.843 6.29 1.843 7.547 0 11.675-6.252 11.675-11.675 0-.178-.004-.355-.012-.53.802-.578 1.497-1.3 2.047-2.124z"/></g></svg>				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" class="nascar-signin-link"
+                   title="Login via Facebook">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#3B5998" d="M20.007 3H3.993C3.445 3 3 3.445 3 3.993v16.013c0 .55.445.994.993.994h8.62v-6.97H10.27V11.31h2.346V9.31c0-2.325 1.42-3.59 3.494-3.59.993 0 1.847.073 2.096.106v2.43h-1.438c-1.128 0-1.346.537-1.346 1.324v1.734h2.69l-.35 2.717h-2.34V21h4.587c.548 0 .993-.445.993-.993V3.993c0-.548-.445-.993-.993-.993z"/></g></svg>				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=monsterid&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="url" value="" /></div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=monsterid&amp;forcedefault=y&amp;r=G" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+						<p class="comment-form-posting-as pa-wordpress">
+			<strong></strong>
+			You are commenting using your WordPress.com account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#0087be" d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.05-.18 2.986-.51-.024-.037-.046-.078-.065-.123l-2.762-7.57zM3.008 12c0 3.56 2.07 6.634 5.068 8.092L3.788 8.342c-.5 1.117-.78 2.354-.78 3.658zm15.06-.454c0-1.112-.398-1.88-.74-2.48-.456-.74-.883-1.368-.883-2.11 0-.825.627-1.595 1.51-1.595.04 0 .078.006.116.008-1.598-1.464-3.73-2.36-6.07-2.36-3.14 0-5.904 1.613-7.512 4.053.21.008.41.012.58.012.94 0 2.395-.114 2.395-.114.484-.028.54.684.057.74 0 0-.487.058-1.03.086l3.275 9.74 1.968-5.902-1.4-3.838c-.485-.028-.944-.085-.944-.085-.486-.03-.43-.77.056-.742 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.486-.028.543.684.058.74 0 0-.488.058-1.03.086l3.25 9.665.897-2.997c.456-1.17.684-2.137.684-2.907zm1.82-3.86c.04.286.06.593.06.924 0 .912-.17 1.938-.683 3.22l-2.746 7.94c2.672-1.558 4.47-4.454 4.47-7.77 0-1.564-.4-3.033-1.1-4.314zM12 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=monsterid&amp;forcedefault=y&amp;r=G" alt="Google photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+						<p class="comment-form-posting-as pa-googleplus">
+			<strong></strong>
+			You are commenting using your Google account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" x="0px" y="0px" viewBox="0 0 60 60" ><path fill="#519bf7" d="M56.3,30c0,-1.6 -0.2,-3.4 -0.6,-5h-3.1H42.2H30v10.6h14.8C44,39.3 42,42 39.1,43.9l8.8,6.8C53,46 56.3,39 56.3,30z" /><path fill="#3db366" d="M30,57.5c6.7,0 13.1,-2.4 17.9,-6.8l-8.8,-6.8c-2.5,1.6 -5.6,2.4 -9.1,2.4c-7.2,0 -13.3,-4.7 -15.4,-11.2l-9.3,7.1C9.8,51.3 19.1,57.5 30,57.5z" /><path fill="#fdc600" d="M5.3,42.2l9.3,-7.1c-0.5,-1.6 -0.8,-3.3 -0.8,-5.1s0.3,-3.5 0.8,-5.1l-9.3,-7.1C3.5,21.5 2.5,25.6 2.5,30S3.5,38.5 5.3,42.2z" /><path fill="#f15b44" d="M40.1,17.4l8,-8C43.3,5.1 37,2.5 30,2.5C19.1,2.5 9.8,8.7 5.3,17.8l9.3,7.1c2.1,-6.5 8.2,-11.1 15.4,-11.1C33.9,13.7 37.4,15.1 40.1,17.4z" /></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=monsterid&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+						<p class="comment-form-posting-as pa-twitter">
+			<strong></strong>
+			You are commenting using your Twitter account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#1DA1F2" d="M22.23 5.924c-.736.326-1.527.547-2.357.646.847-.508 1.498-1.312 1.804-2.27-.793.47-1.67.812-2.606.996C18.325 4.498 17.258 4 16.078 4c-2.266 0-4.103 1.837-4.103 4.103 0 .322.036.635.106.935-3.41-.17-6.433-1.804-8.457-4.287-.353.607-.556 1.312-.556 2.064 0 1.424.724 2.68 1.825 3.415-.673-.022-1.305-.207-1.86-.514v.052c0 1.988 1.415 3.647 3.293 4.023-.344.095-.707.145-1.08.145-.265 0-.522-.026-.773-.074.522 1.63 2.038 2.817 3.833 2.85-1.404 1.1-3.174 1.757-5.096 1.757-.332 0-.66-.02-.98-.057 1.816 1.164 3.973 1.843 6.29 1.843 7.547 0 11.675-6.252 11.675-11.675 0-.178-.004-.355-.012-.53.802-.578 1.497-1.3 2.047-2.124z"/></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=monsterid&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+						<p class="comment-form-posting-as pa-facebook">
+			<strong></strong>
+			You are commenting using your Facebook account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24" ><rect x="0" fill="none" width="24" height="24"/><g><path fill="#3B5998" d="M20.007 3H3.993C3.445 3 3 3.445 3 3.993v16.013c0 .55.445.994.993.994h8.62v-6.97H10.27V11.31h2.346V9.31c0-2.325 1.42-3.59 3.494-3.59.993 0 1.847.073 2.096.106v2.43h-1.438c-1.128 0-1.346.537-1.346 1.324v1.734h2.69l-.35 2.717h-2.34V21h4.587c.548 0 .993-.445.993-.993V3.993c0-.548-.445-.993-.993-.993z"/></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p><p class="post-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;"/> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog"  style="display: inline;">Notify me of new posts via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='7328' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="d096132254" /></p>
+<input type="hidden" name="genseq" value="1572248929" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="218"/></p></form>	</div><!-- #respond -->
+	<div style="clear: both"></div>
+</div><!-- #comments -->
+
+			
+		
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+	<div id="secondary" class="widget-area sidebar-widget-area" role="complementary">
+		<aside id="search-2" class="widget widget_search"><form role="search" method="get" class="search-form" action="https://annalyzin.wordpress.com/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="Search" />
+			</form></aside><aside id="text-23" class="widget widget_text"><h3 class="widget-title">Wanna Learn Data Science?</h3>			<div class="textwidget"><p>Get intuitive explanations focusing on core concepts with no math. Discover applications and pitfalls in concise 1500-word chapters.</p>
+<p><a href="http://eepurl.com/cbVFY1" target="_blank" rel="noopener noreferrer"><img class="aligncenter  wp-image-6434" src="https://annalyzin.files.wordpress.com/2016/08/sign-up-button-transparent-bg-and-cropped.png" alt="Free Data Science Tutorials" width="340" height="55" /></a></p>
+<p>To see what you've missed so far, check out our tutorial compilation in our brand new book:</p>
+<p><a href="http://getbook.at/numsense" target="_blank" rel="noopener noreferrer"><img style="border:1px solid black;" class="  aligncenter  wp-image-6572" src="https://annalyzin.files.wordpress.com/2016/12/title_page.png" alt="numsense algobeans" width="175" height="290" /></a></p>
+<div align="center">
+<a href="http://www.kdnuggets.com/2017/04/data-science-layman-no-math-added.html"><img src="https://i0.wp.com/www.kdnuggets.com/images/top-kdnuggets-blog-2017-apr-silver.png" width="120" height="120" alt="Top KDnuggets Blogger for April 2017"></a></div>
+</div>
+		</aside><aside id="nav_menu-6" class="widget widget_nav_menu"><h3 class="widget-title">Follow Us</h3><div class="menu-secondary-menu-container"><ul id="menu-secondary-menu" class="menu"><li id="menu-item-5950" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5950"><a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/algobeans/">Facebook</a></li>
+<li id="menu-item-5533" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5533"><a target="_blank" rel="noopener noreferrer" href="https://twitter.com/algobeans">Twitter</a></li>
+<li id="menu-item-5532" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5532"><a target="_blank" rel="noopener noreferrer" href="http://algobeans.com/feed">RSS</a></li>
+<li id="menu-item-6938" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6938"><a target="_blank" rel="noopener noreferrer" href="https://github.com/algobeans/numsense">Github</a></li>
+</ul></div></aside>	</div><!-- #secondary -->
+
+	</div><!-- #content -->
+
+	
+<div id="tertiary" class="widget-area footer-widget-area" role="complementary">
+		<div id="widget-area-2" class="widget-area">
+		<aside id="text-18" class="widget widget_text"><h3 class="widget-title">About Algobeans</h3>			<div class="textwidget"><p>Algobeans is the brainchild of two data science enthusiasts, Annalyn (University of Cambridge) and Kenneth (Stanford University). We noticed that while data science is increasingly used to improve workplace decisions, many people know little about the field. Hence, we created Algobeans so that everyone and anyone can learn - be it an aspiring student or enterprising business professional. Each tutorial covers the important functions and assumptions of a data science technique, without any math or jargon. We also illustrate these techniques with real-world data and examples.</p>
+</div>
+		</aside>	</div><!-- #widget-area-2 -->
+	
+	
+		<div id="widget-area-4" class="widget-area">
+		<aside id="text-8" class="widget widget_text"><h3 class="widget-title">wanna learn data science?</h3>			<div class="textwidget"><p>Get intuitive explanations focusing on core concepts with no math. Discover applications and pitfalls in concise 1500-word posts delivered to your inbox.</p>
+<p><a href="http://eepurl.com/cbVFY1" target="_blank" rel="noopener noreferrer"><img class="alignnone  wp-image-6434" src="https://annalyzin.files.wordpress.com/2016/08/sign-up-button-transparent-bg-and-cropped.png" alt="Free Data Science Tutorials" width="340" height="55" /></a></p>
+</div>
+		</aside><aside id="text-20" class="widget widget_text">			<div class="textwidget"><p><img style="display:none;" src="https://www.facebook.com/tr?id=1258053584302511&amp;ev=PageView&amp;noscript=1" width="1" height="1" /></p>
+<p>Copyright © 2015-present algobeans.com.<br />
+All rights reserved. Be a cool bean.</p>
+</div>
+		</aside>	</div><!-- #widget-area-4 -->
+	</div><!-- #tertiary -->
+
+	<footer id="colophon" class="site-footer">
+					<div class="social-links"><ul id="menu-secondary-menu-1" class="menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5950"><a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/algobeans/"><span class="screen-reader-text">Facebook</span></a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5533"><a target="_blank" rel="noopener noreferrer" href="https://twitter.com/algobeans"><span class="screen-reader-text">Twitter</span></a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5532"><a target="_blank" rel="noopener noreferrer" href="http://algobeans.com/feed"><span class="screen-reader-text">RSS</span></a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6938"><a target="_blank" rel="noopener noreferrer" href="https://github.com/algobeans/numsense"><span class="screen-reader-text">Github</span></a></li>
+</ul></div>		
+		<div class="site-info"  role="contentinfo">
+			<a></a>
+			
+					</div><!-- .site-info -->
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201944y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-d60d02892ceacf686379200a3c0aee77">
+	</div>
+	<div class="grofile-hash-map-3706722bb5a20373c982cb6c1ac309fd">
+	</div>
+	<div class="grofile-hash-map-3805c7f257506cb2a22f9fd9362eb7a5">
+	</div>
+	<div class="grofile-hash-map-f5444dba935963a5033751f9d25fd614">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/annalyzin.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/annalyzin.wordpress.com\/wp-login.php?action=logout&_wpnonce=071b791398","homeURL":"https:\/\/annalyzin.wordpress.com\/","postID":"7328","gravDefault":"monsterid","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"","userIsLoggedIn":"","isJetpack":"","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1551752381j'></script>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="92919166" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://annalyzin.wordpress.com" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="Algobeans" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="642071a82e" /><input type="hidden" name="_wp_http_referer" value="/2017/11/02/self-organizing-map/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/annalyzin.wordpress.com\/2017\/11\/02\/self-organizing-map\/":7328};
+	</script>
+					<div id="sharing_email" style="display: none;">
+		<form action="/2017/11/02/self-organizing-map/" method="post">
+			<label for="target_email">Send to Email Address</label>
+			<input type="email" name="target_email" id="target_email" value="" />
+
+			
+				<label for="source_name">Your Name</label>
+				<input type="text" name="source_name" id="source_name" value="" />
+
+				<label for="source_email">Your Email Address</label>
+				<input type="email" name="source_email" id="source_email" value="" />
+
+						<input type="text" id="jetpack-source_f_name" name="source_f_name" class="input" value="" size="25" autocomplete="off" title="This field is for validation and should not be changed" />
+			
+			<div
+				class="g-recaptcha"
+				data-sitekey="6LcmyE0UAAAAALID28yVNg7pFCodGaArJzHitez_"
+				data-theme="light"
+				data-type="image"
+				data-tabindex="0"></div>
+			<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en" async></script>
+			
+			<img style="float: right; display: none" class="loading" src="https://s2.wp.com/wp-content/mu-plugins/post-flair/sharing/images/loading.gif" alt="loading" width="16" height="16" />
+			<input type="submit" value="Send Email" class="sharing_send" />
+			<a rel="nofollow" href="#cancel" class="sharing_cancel" role="button">Cancel</a>
+
+			<div class="errors errors-1" style="display: none;">
+				Post was not sent - check your email addresses!			</div>
+
+			<div class="errors errors-2" style="display: none;">
+				Email check failed, please try again			</div>
+
+			<div class="errors errors-3" style="display: none;">
+				Sorry, your blog cannot share posts by email.			</div>
+		</form>
+	</div>
+<link rel='stylesheet' id='all-css-0-3' href='https://s0.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel.css?m=1563361695h&cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var comment_like_text = {"loading":"Loading..."};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"92919166","siteName":"Algobeans","siteURL":"http:\/\/annalyzin.wordpress.com","icon":"<img alt='' src='https:\/\/annalyzin.files.wordpress.com\/2017\/08\/green-x-yellow.png?w=50' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/sela","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fannalyzin.wordpress.com%2F2017%2F11%2F02%2Fself-organizing-map%2F&signup_flow=account","themeURL":"","xhrURL":"https:\/\/annalyzin.wordpress.com\/wp-admin\/admin-ajax.php","nonce":"aa146ea6ba","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"382facda70\" \/>","referer":"https:\/\/annalyzin.wordpress.com\/2017\/11\/02\/self-organizing-map\/","canFollow":"1","feedID":"96660052","statusMessage":"","customizeLink":"https:\/\/annalyzin.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fannalyzin.wordpress.com%2F2017%2F11%2F02%2Fself-organizing-map%2F","postID":"7328","shortlink":"https:\/\/wp.me\/p6hSwe-1Uc","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/annalyzin.wordpress.com\/7328","statsLink":"https:\/\/wordpress.com\/stats\/post\/7328\/annalyzin.wordpress.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Sela","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 304 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fannalyzin.wordpress.com%2F2017%2F11%2F02%2Fself-organizing-map%2F&signup_flow=account\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/annalyzin.wordpress.com\/wp-admin\/admin-ajax.php","nonce":"9b44404218","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/annalyzin.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fannalyzin.wordpress.com%2F2017%2F11%2F02%2Fself-organizing-map%2F","blog_id":"92919166","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=92919166&v=wpcom&tz=8&user_id=0&subd=annalyzin","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1","is_stats_active":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyVUltuwzAMu9ActyuGfg07yuA4SqrEr0l2ut5+CtZ06QPB+iWbJiWKsD4mZWPIELLuWTcwooX0XfX8ohdPvqjkSoeBtcMBWH8VKHAwoXFAK2QbvRdI/Yr6SV1rPmKCZ0RXwK1wVnVFrjVQp2oX7cDCEd18ORcYpz42lpCbeAy3vfIBvIxMRUyCM9PsYEbsTMb4HzIPmMRlGFQbbWHV4l2Sj1RSZxoG60pzvTZBcqfK452DRWamkXdVG9LecAaSk4ojEOHU7II92SGTkdTWRHZKZhJdTo824fRnfon38o3odC7VkvXoWxiKRbLSPeQkvtQMrPkbkD1ktas2+lMm6zaSX+GnyFm1ziBpPhjC0M1VRB/+ffu23+73m9fdpv8BSC81KQ=='></script>
+<script type='text/javascript'>
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-linkedin', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+</script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>		<iframe src='https://widgets.wp.com/likes/master.html?ver=20190321#ver=20190321' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+<script src="//stats.wp.com/w.js?60" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'92919166','blog_tz':'8','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'92919166','v':'wpcom','tz':'8','user_id':'0','post':'7328','subd':'annalyzin'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGRVYVNrSFguN3FwSmQ5RGtNX3VQcj1yVzhiflM1THQtLGFdQ2toOXYlR2JfVHlbdVFFL0crfiVtXTFEVGpBRzg2VXlvYnlYNzJvciZuT3pXRit4NTJycFA4NnB1WWM4UVJ5VEtFNms9eDU5d0FLQ1lONVMmLUFneTZwT2dsaGtqdWdaaDklenZUP2RYXUpCeiZzfH5bc1Rnfjh4WWE2MlYyZ3hBXzZxU05UWzdEXTgzflhzMEErcEVWT0Z2U1k/OTdbNWsvTWR1ZHlRdU04SmJnV2x2UTFRRH45WGE2YWJkTGtQYQ=='}]);
+_stq.push([ 'clickTrackerInit', '92919166', '7328' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
