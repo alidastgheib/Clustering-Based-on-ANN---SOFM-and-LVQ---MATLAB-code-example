@@ -4,7 +4,7 @@ competitive learning based clustering methods is given. Importance is attached t
 neural networks such as the self-organizing map (SOM), the learning vector quantization (LVQ), the neural gas, and the ART model.
 
 
-# About this Project
+# About this project
 In this project, two of the most famous NN-based clustering methods, SOM and LVQ, will be implemented. Their performance and efficacy,
 will then be investigated through analysing different criteria such as 
 [Calinski-Harabasz index](https://www.oreilly.com/library/view/machine-learning-algorithms/9781785889622/8dba1062-2dbe-43ce-a9b0-9ea49203ea9a.xhtml), 
@@ -14,7 +14,7 @@ Gaussian distribution. Moreover, a linear dimensionality reduction based on
 [PCA (Principal Component Analysis)](https://en.wikipedia.org/wiki/Principal_component_analysis) is performed as a pre-processing step. 
 
 
-## Learning Outcomes:
+## Learning outcomes:
 
 * How to inspect and understand APIs and third party libraries to be used with Python 3
 
