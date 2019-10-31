@@ -8,7 +8,7 @@ neural networks such as the self-organizing map (SOM), the learning vector quant
 In this project, two of the most famous NN-based clustering methods, SOM and LVQ, will be implemented. Their performance and efficacy,
 will then be investigated through analysing different criteria such as
 [Calinski-Harabasz index](https://www.oreilly.com/library/view/machine-learning-algorithms/9781785889622/8dba1062-2dbe-43ce-a9b0-9ea49203ea9a.xhtml), 
-[Davies-Bouldin index](https://en.wikipedia.org/wiki/Davies%E2%80%93Bouldin_index), and silhouette values as well as silhouette plot. 
+[Davies-Bouldin index](https://en.wikipedia.org/wiki/Davies%E2%80%93Bouldin_index), and **silhouette values** as well as **silhouette plot**. 
 The programming language for this project is chosen to be MATLAB and the dataset used is artificially created by sampling 
 Gaussian distribution. Moreover, a linear dimensionality reduction based on 
 [PCA (Principal Component Analysis)](https://en.wikipedia.org/wiki/Principal_component_analysis) is performed as a pre-processing step. 
@@ -24,8 +24,8 @@ Gaussian distribution. Moreover, a linear dimensionality reduction based on
 
 
 ## Files description:
-* sofm.m
+* **sofm.m** >> in this MATLAB script, a SOFM neural network is trained to cluster the data into 3 classes.
 
-* lvq.m
+* **lvq.m** >> in this MATLAB script, a LVQ-based neural network is trained to cluster the data into 3 classes.
 
-* Performance_Evaluation.m
+* **Performance_Evaluation.m** >> in this MATLAB script, two clustering algorithms, SOFM and LVQ, are compared together through well-known quantitative criteria such as ***Calinski-Harabasz index*** and ***Davies-Bouldin index***, as well as ***silhouette values*** and ***silhouette plot***. 
